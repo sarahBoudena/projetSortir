@@ -46,6 +46,12 @@ class Participant
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $organisateur;
 
+    #[ORM\Column(length: 250)]
+    private ?string $urlPhotoProfil = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $motDePasse = null;
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();
@@ -203,6 +209,30 @@ class Participant
                 $organisateur->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUrlPhotoProfil(): ?string
+    {
+        return $this->urlPhotoProfil;
+    }
+
+    public function setUrlPhotoProfil(string $urlPhotoProfil): self
+    {
+        $this->urlPhotoProfil = $urlPhotoProfil;
+
+        return $this;
+    }
+
+    public function getMotDePasse(): ?string
+    {
+        return $this->motDePasse;
+    }
+
+    public function setMotDePasse(string $motDePasse): self
+    {
+        $this->motDePasse = $motDePasse;
 
         return $this;
     }
