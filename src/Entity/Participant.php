@@ -6,9 +6,13 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-class Participant
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,19 +20,36 @@ class Participant
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
+    #[Assert\NotNull(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"nom\"")]
+    #[Assert\NotNull(message: "Il est nécessaire de renseigner le champs \"nom\"")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"prénom\"")]
+    #[Assert\NotNull(message: "Il est nécessaire de renseigner le champs \"prénom\"")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Email(message : 'Cet email ne correspond pas au format attendu')]
     private ?string $mail = null;
+
+    #[ORM\Column(length: 250)]
+    #[Assert\Url(message: "merci de saisir une url d'image valide")]
+    private ?string $urlPhotoProfil = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $motDePasse = null;
+
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column]
     private ?bool $administrateur = null;
@@ -45,12 +66,6 @@ class Participant
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $organisateur;
-
-    #[ORM\Column(length: 250)]
-    private ?string $urlPhotoProfil = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $motDePasse = null;
 
     public function __construct()
     {
@@ -235,5 +250,30 @@ class Participant
         $this->motDePasse = $motDePasse;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->pseudo;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->motDePasse;
     }
 }
