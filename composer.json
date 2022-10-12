@@ -15,6 +15,7 @@
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
+        "symfony/form": "6.1.*",
         "symfony/framework-bundle": "6.1.*",
         "symfony/proxy-manager-bridge": "6.1.*",
         "symfony/runtime": "6.1.*",
@@ -26,7 +27,10 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.47"
+        "symfony/maker-bundle": "^1.47",
+        "symfony/stopwatch": "6.1.*",
+        "symfony/var-dumper": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*"
     },
     "config": {
         "allow-plugins": {

@@ -5,7 +5,12 @@
 {% block body %}
     <h1>Edit Participant</h1>
 
-    {{ include('participant/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('participant/_form.html.twig', {'button_label': 'Save'}) }}
+    {%  for label, messages in app.flashes%}
+        {% for message in messages %}
+            <div id="alert" class="alert-{{ label }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
 
 
 {% endblock %}

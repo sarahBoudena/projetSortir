@@ -6,12 +6,15 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+#[UniqueEntity(fields: ['pseudo'], message: 'Ce pseudo est déjà utilisé, merci d\'en saisir un autre')]
+
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,6 +26,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
     #[Assert\NotNull(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
     private ?string $pseudo = null;
+
 
     #[ORM\Column(length: 30)]
     #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"nom\"")]
@@ -42,7 +46,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $mail = null;
 
     #[ORM\Column(length: 250)]
-    #[Assert\Url(message: "merci de saisir une url d'image valide")]
     private ?string $urlPhotoProfil = null;
 
     #[ORM\Column(length: 255)]
@@ -264,7 +267,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+       // $this->plainPassword = null;
     }
 
     public function getUserIdentifier(): string
