@@ -49,8 +49,11 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Participant $participant, ParticipantRepository $participantRepository): Response
+    public function edit(Request $request,
+                         Participant $participant,
+                         ParticipantRepository $participantRepository): Response
     {
+        if($participant == $this->getUser()){
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
@@ -63,7 +66,10 @@ class ParticipantController extends AbstractController
         return $this->renderForm('participant/edit.html.twig', [
             'participant' => $participant,
             'form' => $form,
-        ]);
+        ]);}
+        else{return $this->redirectToRoute('sortie_index');
+
+        }
 
     }
 
