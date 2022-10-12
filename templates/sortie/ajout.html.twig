@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Ajouter">
+    {{ form_end(form) }}
+
+    <a href="{{ path('sortie_index') }}"><button>Annuler</button></a>
+{% endblock %}
+
+{% block title %}
+Créer une sortie
+{% endblock %}
+
