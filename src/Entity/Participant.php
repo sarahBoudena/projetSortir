@@ -19,7 +19,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, unique: true)]
     #[Assert\NotBlank(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
     #[Assert\NotNull(message: "Il est nécessaire de renseigner le champs \"pseudo\"")]
     private ?string $pseudo = null;
