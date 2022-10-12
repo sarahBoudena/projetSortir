@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+
+    <div class="ligne">
+        {{ form_label(form.pseudo) }}
+        {{ form_widget(form.pseudo) }}
+        {{ form_errors(form.pseudo) }}
+    </div>
+    <div class="ligne">
+        {{ form_label(form.prenom) }}
+        {{ form_widget(form.prenom) }}
+        {{ form_errors(form.prenom) }}
+    </div>
+    <div class="ligne">
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+        {{ form_errors(form.nom) }}
+    </div>
+    <div class="ligne">
+        {{ form_label(form.telephone) }}
+        {{ form_widget(form.telephone) }}
+        {{ form_errors(form.telephone) }}
+    </div>
+    <div class="ligne">
+        {{ form_label(form.mail) }}
+        {{ form_widget(form.mail) }}
+        {{ form_errors(form.mail) }}
+    </div><div class="ligne">
+        {{ form_label(form.site) }}
+        {{ form_widget(form.site) }}
+        {{ form_errors(form.site) }}
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
