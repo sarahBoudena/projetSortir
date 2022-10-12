@@ -5,10 +5,15 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
+
 
 #[Route('/participant')]
 class ParticipantController extends AbstractController
@@ -49,24 +54,34 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request,
-                         Participant $participant,
-                         ParticipantRepository $participantRepository): Response
+    public function edit(Request                        $request,
+                         Participant                    $participant,
+                         UserPasswordHasherInterface    $userPasswordHasher,
+                         ParticipantRepository          $participantRepository,
+                         NotifierInterface              $notifier): Response
     {
         if($participant == $this->getUser()){
-        $form = $this->createForm(ParticipantType::class, $participant);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $participantRepository->save($participant, true);
+            $form = $this->createForm(ParticipantType::class, $participant);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                    $participant->setMotDePasse(
+                        $userPasswordHasher->hashPassword(
+                            $participant,
+                            $form->get('plainPassword')->getData()
+                        )
+                    );
+                    $participantRepository->save($participant, true);
+                    $notifier->send(new Notification('La mise à jour de vos données a bien été effectuée', ['browser']));
+                return $this->redirectToRoute('app_participant_show', ['id' =>$participant->getId()], Response::HTTP_SEE_OTHER, compact("participant"));}
 
         return $this->renderForm('participant/edit.html.twig', [
             'participant' => $participant,
             'form' => $form,
         ]);}
+
         else{return $this->redirectToRoute('sortie_index');
 
         }
