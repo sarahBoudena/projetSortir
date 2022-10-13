@@ -39,6 +39,16 @@ class LieuRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLieuWithVille():array {
+        $reqSQL ="
+            SELECT l FROM APP\Entity\Lieu l
+            INNER JOIN \APP\Entity\Ville v
+            ON l.ville_id = v.id
+        ";
+        $req = $this->getEntityManager()->createQuery($reqSQL);
+        return $req->getResult();
+}
+
 //    /**
 //     * @return Lieu[] Returns an array of Lieu objects
 //     */
