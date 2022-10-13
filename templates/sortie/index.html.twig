@@ -35,7 +35,7 @@
     {# Affichage de la liste des sorties #}
     <ul>
     {% for sortie in sorties %}
-        <li>{{ sortie.nomSortie }} | {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.nbInscriptionsMax }} | {{ sortie.etat.libelle }} | {{ sortie.organisateur.pseudo }}</li>
+        <li>{{ sortie.nomSortie }} | {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.nbInscriptionsMax }} | {{ sortie.etat.libelle }} | {{ sortie.organisateur.pseudo }} | <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a> </li>
     {% endfor %}
     </ul>
     <a href="{{ path('sortie_ajout') }}"><button>Créer une sortie</button></a>
