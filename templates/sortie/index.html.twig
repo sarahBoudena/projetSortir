@@ -9,16 +9,33 @@
     <h3>Participant : {{ app.user.pseudo }}</h3>
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_login') }}">Logout</a>
-        </div>
-    {% endif %}
-
     <h4>Filtrer les sorties</h4>
+
+    {# Sélection du site #}
+    <div class="ligne">
+        <label for="selectSite">Site : </label>
+        <select name="selectSite" id="selectSite">
+            {% for site in sites %}
+                <option value="{{ site.id }}">{{ site.nomSite }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {# Champs de recherche #}
+    <div class="ligne">
+        <label for="inputRecherche">Le nom de la sortie contient : </label>
+        <input type="text" id="inputRecherche" name="inputRecherche" placeholder="Recherche">
+    </div>
+
+    {# Sélection d'une intervalle de dates #}
+    <div class="ligne">
+
+    </div>
+    
+    {# Affichage de la liste des sorties #}
     <ul>
     {% for sortie in sorties %}
-        <li>{{ sortie.nomSortie }} | {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.nbInscriptionsMax }} | {{ sortie.etat.libelle }} | {{ sortie.organisateur.pseudo }}</li>
+        <li>{{ sortie.nomSortie }} | {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.nbInscriptionsMax }} | {{ sortie.etat.libelle }} | {{ sortie.organisateur.pseudo }} | <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a> </li>
     {% endfor %}
     </ul>
     <a href="{{ path('sortie_ajout') }}"><button>Créer une sortie</button></a>

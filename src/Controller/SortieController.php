@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,15 +19,18 @@ class SortieController extends AbstractController
 {
     #[Route('/', name: 'sortie_index')]
     public function index(
-        SortieRepository $repository
+        SortieRepository $repository,
+        SiteRepository $siteRepository
     ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+        $sites = $siteRepository->findAll();
         $sorties = $repository->findAll();
         return $this->render('sortie/index.html.twig', [
-            "sorties"=>$sorties
+            "sorties"=>$sorties,
+            "sites"=>$sites
         ]);
     }
 
