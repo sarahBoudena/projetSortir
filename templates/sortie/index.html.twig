@@ -3,15 +3,17 @@
 {% block title %}Liste sorties{% endblock %}
 
 {% block body %}
-    <h3>Date du jour : {{'now'|date('d/m/Y')}}</h3>
+    <div class="container-sm">
+        <h3>Date du jour : {{'now'|date('d/m/Y')}}</h3>
 
-   {% if (app.user) %}
-    <h3>Participant : {{ app.user.pseudo }}</h3>
-    {% endif %}
+       {% if (app.user) %}
+        <h3>Participant : {{ app.user.pseudo }}</h3>
+        {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_login') }}">Logout</a>
-        </div>
-    {% endif %}
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_login') }}">Logout</a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
