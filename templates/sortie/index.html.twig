@@ -53,8 +53,13 @@
             <td>{{ sortie.nomSortie }}</td>
             <td> {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
             <td>{{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
-            <td>  XXX | {{ sortie.nbInscriptionsMax }}</td>
+            <td>   {% set nbInscrit = 0 %}
+                {% for participant in sortie.participants %}
+                    {% set nbInscrit = nbInscrit + 1 %}
+                {% endfor %}
+                {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}</td>
             <td>{{ sortie.etat.libelle }} </td>
+
             <td>{% set inscrit = false %}
                 {% for inscriptionSortie in app.user.inscription %}
                     {% if inscriptionSortie == sortie %}

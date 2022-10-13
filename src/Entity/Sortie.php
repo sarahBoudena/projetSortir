@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -38,6 +39,9 @@ class Sortie
     #[ORM\ManyToOne(inversedBy: 'organisateur')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Participant $organisateur = null;
+
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'inscription')]
+    private Collection $participants;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -145,6 +149,8 @@ class Sortie
         return $this->organisateur;
     }
 
+
+
     public function setOrganisateur(?Participant $organisateur): self
     {
         $this->organisateur = $organisateur;
@@ -185,6 +191,32 @@ class Sortie
     {
         $this->etat = $etat;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addUsers(Participant $participants): self
+    {
+        if (!$this->participants->contains($participants)) {
+            $this->participants->add($participants);
+            $participants->addInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipants(Participant $participants): self
+    {
+        if ($this->participants->removeElement($participants)) {
+            $participants->removeInscription($this);
+        }
         return $this;
     }
 }
