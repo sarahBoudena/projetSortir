@@ -58,7 +58,7 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this->render('sortie/index.html.twig');
+            return $this->redirectToRoute('sortie_index');
         }
         return $this->render('sortie/ajout.html.twig', [
             "form"=>$form->createView()
