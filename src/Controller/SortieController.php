@@ -2,9 +2,6 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Etat;
-use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -61,6 +58,18 @@ class SortieController extends AbstractController
         }
         return $this->render('sortie/ajout.html.twig', [
             "form"=>$form->createView()
+        ]);
+    }
+
+    #[Route('/details/{id}', name: 'details_index',
+                             requirements: ['id' => '\d+']
+    )]
+    public function details(
+        Sortie $id
+    ): Response
+    {
+        return $this->render('sortie/details.html.twig', [
+            "sortie" =>$id
         ]);
     }
 }

@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-sm">
+        <h1 class="h3 mb-3 font-weight-normal">Afficher une sortie</h1>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <label for="inputNom" class="form-label fw-semibold"> Nom de la sortie: </label>
+                    {{ sortie.nomSortie }}
+                </div>
+                <div>
+                    <label for="inputDateEtHeure" class="form-label fw-semibold"> Date et Heure de la sortie: </label>
+                    {{ sortie.dateDebut | date('d/m/Y H:i:s', 'Europe/Paris') }}
+                </div>
+                <div>
+                    <label for="inputDateLimite" class="form-label fw-semibold"> Date lime de l'inscription: </label>
+                    {{ sortie.dateCloture | date('d/m/Y H:i:s', 'Europe/Paris') }}
+                </div>
+                <div>
+                    <label for="NbPlace" class="form-label fw-semibold"> Nombre de places: </label>
+                    {{ sortie.nbInscriptionsMax }}
+                </div>
+                <div>
+                    <label for="inputDuree" class="form-label fw-semibold">Durée (min): </label>
+                    {{ sortie.duree }}
+                </div>
+                <div>
+                    <label for="inputDescriptionEtInfo" class="form-label fw-semibold">Description et infos: </label>
+                    {{ sortie.detailSortie }}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <label for="inputLieu" class="form-label fw-semibold">Lieu: </label>
+                    {{ sortie.lieu.nomLieu }}
+                </div>
+                <div>
+                    <label for="inputRue" class="form-label fw-semibold">Rue: </label>
+                    {{ sortie.lieu.rue }}
+                </div>
+                <div>
+                    <label for="inputVille" class="form-label fw-semibold">Ville: </label>
+                    {{ sortie.lieu.ville.nomVille }}
+                </div>
+                <div>
+                    <label for="inputCodePostal" class="form-label fw-semibold">Code postal: </label>
+                    {{ sortie.lieu.ville.codePostal }}
+                </div>
+                <div>
+                    <label for="inputLatitude" class="form-label fw-semibold">Latitude: </label>
+                    {{ sortie.lieu.latitude }}
+                </div>
+                <div>
+                    <label for="inputLongitude" class="form-label fw-semibold">Longitude: </label>
+                    {{ sortie.lieu.longitude }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-sm">
+        <div class="row">
+            <div class="col-sm-3">
+                <label class="fw-bold fs-5"> Liste des participants inscrits: </label>
+                <table class="table table-bordered table-striped border-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Test</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
