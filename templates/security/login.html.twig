@@ -8,9 +8,6 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-
-
-
     <div class="container-sm">
         <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 
@@ -21,25 +18,24 @@
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
     </div>
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+           value="{{ csrf_token('authenticate') }}">
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+
+{#        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
+{#        See https://symfony.com/doc/current/security/remember_me.html#}
 
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-    #}
+
 
     <div class="container-sm">
     <button class="btn btn-primary" type="submit">Connexion</button>
 
-    <input type="checkbox" id="SeSouvenir" name="SeSouvenir" value="Se Souvenir de moi">
-    <label for="SeSouvenir">Se Souvenir de moi |</label>
+{#    <input type="checkbox" id="SeSouvenir" name="_remember_me" value="Se Souvenir de moi">#}
+{#    <label for="SeSouvenir">Se Souvenir de moi |</label>#}
     <a href="#">Mot de passe oublié</a>
     </div>
 </form>

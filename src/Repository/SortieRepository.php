@@ -39,6 +39,19 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findSortieWithLieu():array {
+        $reqSQL ="
+            SELECT s FROM APP\Entity\Sortie s
+            INNER JOIN \APP\Entity\Lieu l
+            ON s.lieu_id = l.id
+        ";
+        $req = $this->getEntityManager()->createQuery($reqSQL);
+        return $req->getResult();
+    }
+
+
+
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
