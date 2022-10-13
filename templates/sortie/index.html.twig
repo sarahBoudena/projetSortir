@@ -3,17 +3,24 @@
 {% block title %}Liste sorties{% endblock %}
 
 {% block body %}
-    <div class="container-sm">
-        <h3>Date du jour : {{'now'|date('d/m/Y')}}</h3>
+    <h3>Date du jour : {{'now'|date('d/m/Y')}}</h3>
 
-       {% if (app.user) %}
-        <h3>Participant : {{ app.user.pseudo }}</h3>
-        {% endif %}
+   {% if (app.user) %}
+    <h3>Participant : {{ app.user.pseudo }}</h3>
+    {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_login') }}">Logout</a>
-            </div>
-        {% endif %}
-    </div>
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_login') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h4>Filtrer les sorties</h4>
+    <ul>
+    {% for sortie in sorties %}
+        <li>{{ sortie.nomSortie }} | {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}} | {{ sortie.nbInscriptionsMax }} | {{ sortie.etat.libelle }} | {{ sortie.organisateur.pseudo }}</li>
+    {% endfor %}
+    </ul>
+    <a href="{{ path('sortie_ajout') }}"><button>Créer une sortie</button></a>
+
 {% endblock %}
