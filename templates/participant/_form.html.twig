@@ -1,0 +1,49 @@
+{{ form_start(form) }}
+    {% for message in app.flashes('notification') %}
+            <div class="alert alert-info alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+    {% endfor %}
+
+<div class="photo"><img src="{{ asset(app.user.urlPhotoProfil) }}" alt="Photo de profil"></div>
+<div class="ligne">
+    {{ form_label(form.pseudo) }}
+    {{ form_widget(form.pseudo) }}
+</div>
+{{ form_errors(form.pseudo) }}
+<div class="ligne">
+    {{ form_label(form.prenom) }}
+    {{ form_widget(form.prenom) }}
+    {{ form_errors(form.prenom) }}
+</div>
+<div class="ligne">
+    {{ form_label(form.nom) }}
+    {{ form_widget(form.nom) }}
+    {{ form_errors(form.nom) }}
+</div>
+<div class="ligne">
+    {{ form_label(form.telephone) }}
+    {{ form_widget(form.telephone) }}
+    {{ form_errors(form.telephone) }}
+</div>
+<div class="ligne">
+    {{ form_label(form.mail) }}
+    {{ form_widget(form.mail) }}
+    {{ form_errors(form.mail) }}
+</div>
+
+    <div class="ligne">
+        {{ form_label(form.plainPassword) }}
+        {{ form_widget(form.plainPassword) }}
+        {{ form_errors(form.plainPassword) }}
+    </div>
+
+<div class="ligne">
+    {{ form_label(form.site) }}
+    {{ form_widget(form.site) }}
+    {{ form_errors(form.site) }}
+</div>
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
