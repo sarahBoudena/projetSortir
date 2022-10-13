@@ -23,7 +23,7 @@ class InscriptionSortieController extends AbstractController
     ): Response
     {
         $participant = $this->getUser();
-        if($sortie->getDateCloture() > 'now'|date ('d/m/Y H:i:s')){
+        if($sortie->getDateCloture() > 'now') {
             $inscrit = false;
             $collectionInscription = $participant->getInscription();
             foreach ($collectionInscription as $inscriptionSortie){
