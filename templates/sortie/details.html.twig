@@ -72,23 +72,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Test</td>
-                        <td>Test</td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Test</td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Test</td>
-                    </tr>
+
+                    {% for participant in sortie.participants %}
+                        <tr>
+                            <td>{{ participant.pseudo }}</td>
+                            <td><a class="nav-link" href="{{ path('app_participant_show', {'id': participant.id }) }}">{{ participant.nom }}</a></td>
+
+                        </tr>
+                    {% endfor %}
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <a href=javascript:history.go(-1)><button class="btn">Retour</button></a>
 
 {% endblock %}
 
