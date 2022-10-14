@@ -202,7 +202,7 @@ class Sortie
         return $this->participants;
     }
 
-    public function addUsers(Participant $participants): self
+    public function addParticipants(Participant $participants): self
     {
         if (!$this->participants->contains($participants)) {
             $this->participants->add($participants);

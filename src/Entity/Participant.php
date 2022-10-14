@@ -190,15 +190,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->inscription->contains($inscription)) {
             $this->inscription->add($inscription);
+            $inscription->addParticipants($this);
         }
-
         return $this;
     }
 
     public function removeInscription(Sortie $inscription): self
     {
-        $this->inscription->removeElement($inscription);
-
+        if ($this->inscription->removeElement($inscription)) {
+            $inscription->removeParticipants($this);
+        }
         return $this;
     }
 

@@ -31,7 +31,12 @@
     </table>
 
     {% if ( participant == app.user) %}
+        <a href="{{ path('sortie_index') }}"><button class="btn">Retour à l'accueil </button></a>
         <button class="btn" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
     {% endif %}
+    {% if  ( participant != app.user)%}
+        <a href=javascript:history.go(-1)><button class="btn">Retour </button></a>
+    {% endif %}
+
 
 {% endblock %}
