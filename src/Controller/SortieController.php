@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -36,6 +37,7 @@ class SortieController extends AbstractController
 
     #[Route('/ajout', name: 'sortie_ajout')]
     public function ajout(
+        LieuRepository $lieuRepository,
         EtatRepository $etatRepository,
         ParticipantRepository $participantRepository,
         EntityManagerInterface $entityManager,
@@ -43,6 +45,7 @@ class SortieController extends AbstractController
     ): Response
     {
         $sortie = new Sortie();
+        $lieux = $lieuRepository->findAll();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -58,10 +61,11 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this->redirectToRoute('sortie_index');
+            return $this->render('sortie/index.html.twig');
         }
         return $this->render('sortie/ajout.html.twig', [
-            "form"=>$form->createView()
+            "form"=>$form->createView(),
+            "lieux"=>$lieux
         ]);
     }
 
