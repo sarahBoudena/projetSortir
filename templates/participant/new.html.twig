@@ -3,9 +3,15 @@
 {% block title %}New Participant{% endblock %}
 
 {% block body %}
-    <h1>Create new Participant</h1>
+<div class="container-sm">
+    <div class="row">
 
-    {{ include('participant/_form.html.twig') }}
+            <h1>Create new Participant</h1>
+                        {{ include('participant/_form.html.twig') }}
+        <div class="col-4 offset-4">
+                        <a href="{{ path('app_participant_index') }}" class="btn btn-primary">Retour à la liste</a>
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('app_participant_index') }}">back to list</a>
 {% endblock %}
