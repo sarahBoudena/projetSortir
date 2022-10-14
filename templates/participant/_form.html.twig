@@ -9,63 +9,63 @@
 
     <div class="row">
         <div class="col-4">
-            <div class="photo"><img src="{{ asset(app.user.urlPhotoProfil) }}" alt="Photo de profil"></div>
+            <div class="photo"><img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-thumbnail" alt="Photo de profil"></div>
         </div>
         <div class="col-4">
             <table class="table">
                 <tbody>
                 <tr>
                     <div class="ligne">
-                        <td> {{ form_label(form.pseudo) }}</td>
+                        <th> {{ form_label(form.pseudo) }}</th>
                         <td>{{ form_widget(form.pseudo) }}</td>
                         <td>{{ form_errors(form.pseudo) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td> {{ form_label(form.prenom) }}</td>
+                        <th> {{ form_label(form.prenom) }}</th>
                         <td>{{ form_widget(form.prenom) }}</td>
                         <td>{{ form_errors(form.prenom) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td>{{ form_label(form.nom) }}</td>
+                        <th>{{ form_label(form.nom) }}</th>
                         <td>{{ form_widget(form.nom) }}</td>
                         <td>{{ form_errors(form.nom) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td>{{ form_label(form.telephone) }}</td>
+                        <th>{{ form_label(form.telephone) }}</th>
                         <td>{{ form_widget(form.telephone) }}</td>
                         <td>{{ form_errors(form.telephone) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td>{{ form_label(form.mail) }}</td>
+                        <th>{{ form_label(form.mail) }}</th>
                         <td>{{ form_widget(form.mail) }}</td>
                         <td>{{ form_errors(form.mail) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td>{{ form_label(form.plainPassword) }}</td>
+                        <th>{{ form_label(form.plainPassword) }}</th>
                         <td>{{ form_widget(form.plainPassword) }}</td>
                         <td>{{ form_errors(form.plainPassword) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <div class="ligne">
-                        <td>{{ form_label(form.site) }}</td>
+                        <th>{{ form_label(form.site) }}</th>
                         <td>{{ form_widget(form.site) }}</td>
                         <td>{{ form_errors(form.site) }}</td>
                     </div>
                 </tr>
                 <tr>
                     <td>
-                        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                        <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
                         {{ form_end(form) }}
                     </td>
                 </tr>

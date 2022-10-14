@@ -8,7 +8,7 @@
                 <h1>{{ participant.pseudo }}</h1>
             <div class="col-4">
                 <div class="photo">
-                    <img src="{{ asset(app.user.urlPhotoProfil) }}" alt="Photo de profil">
+                    <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-thumbnail" alt="Photo de profil">
                 </div>
             </div>
             <div class="col-4">
@@ -38,6 +38,7 @@
                 </table>
                 {% if ( participant == app.user) %}
                     <button class="btn btn-primary" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
+                    <button class="btn btn-primary">Annuler</button>
                 {% endif %}
             </div>
         </div>
