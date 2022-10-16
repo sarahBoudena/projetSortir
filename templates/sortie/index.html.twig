@@ -8,18 +8,16 @@
             {% if (app.user) %}
                 <h3 class="d-flex justify-content-end">Participant : {{ app.user.pseudo }}</h3>
             {% endif %}
-
         <div class="row">
-
-                <h4>Filtrer les sorties</h4>
-                {# Sélection du site #}
+            <h4>Filtrer les sorties</h4>
+            {# Sélection du site #}
             <div class="col-5 ">
-                    <label for="selectSite">Site : </label>
-                    <select class="form-select" name="selectSite" id="selectSite">
-                        {% for site in sites %}
-                            <option value="{{ site.id }}">{{ site.nomSite }}</option>
-                        {% endfor %}
-                    </select>
+                <label for="selectSite">Site : </label>
+                <select class="form-select" name="selectSite" id="selectSite">
+                    {% for site in sites %}
+                        <option value="{{ site.id }}">{{ site.nomSite }}</option>
+                    {% endfor %}
+                </select>
 
                 {# Champs de recherche #}
                 <div class="ligne">
@@ -27,19 +25,17 @@
                     <input type="text" id="inputRecherche" name="inputRecherche" placeholder="Recherche" class="">
                 </div>
 
-    {# Sélection d'une intervalle de dates #}
-                label for="inputDate">Entre</label>
+                {# Sélection d'une intervalle de dates #}
+                <label for="inputDate">Entre</label>
                 <input type="date" id="inputDate" name="inputDate" class="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                 </svg>
-
                 <label for="inputDate">et</label>
                 <input type="date" id="inputDate" name="inputDate" class="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                 </svg>
-
             </div>
 
             {# Sélection des options de recherches checkbox #}
@@ -82,21 +78,22 @@
                         <th>Actions</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     {% for sortie in sorties %}
                         <tr>
                             <td>{{ sortie.nomSortie }}</td>
                             <td> {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
                             <td>{{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
-                            <td>   {% set nbInscrit = 0 %}
+                            <td>
+                                {% set nbInscrit = 0 %}
                                 {% for participant in sortie.participants %}
                                     {% set nbInscrit = nbInscrit + 1 %}
                                 {% endfor %}
-                                {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}</td>
-                            <td>{{ sortie.etat.libelle }} </td>
-
-                            <td>{% set inscrit = false %}
+                                {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}
+                            </td>
+                            <td>{{ sortie.etat.libelle }}</td>
+                            <td>
+                                {% set inscrit = false %}
                                 {% for inscriptionSortie in app.user.inscription %}
                                     {% if inscriptionSortie == sortie %}
                                         {% set inscrit = true %}
@@ -105,11 +102,10 @@
                                 {% if inscrit %}
                                     X
                                 {% endif %}
-
-
-            </td>
+                            </td>
                             <td>
-                                <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a></td>
+                                <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
+                            </td>
                             <td>
                                 {% if (sortie.dateCloture|date("Y-m-d : ") > 'now'|date("Y-m-d") ) %}
                                     <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a>
@@ -124,8 +120,7 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
-        </tr>
-
+                        </tr>
                     {% endfor %}
                     </tbody>
                 </table>
@@ -133,5 +128,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

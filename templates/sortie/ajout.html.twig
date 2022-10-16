@@ -1,15 +1,71 @@
 {% extends 'base.html.twig' %}
 
+{% block javascript %}
+
+{% endblock %}
+
 {% block body %}
     {{ form_start(form) }}
+
+    <div class="ligne">
+        {{ form_label(form.nomSortie) }}
+        {{ form_widget(form.nomSortie) }}
+        {{ form_errors(form.nomSortie) }}
+    </div>
+
+    <div class="ligne">
+        {{ form_label(form.dateDebut) }}
+        {{ form_widget(form.dateDebut) }}
+        {{ form_errors(form.dateDebut) }}
+    </div>
+
+    <div class="ligne">
+        {{ form_label(form.dateCloture) }}
+        {{ form_widget(form.dateCloture) }}
+        {{ form_errors(form.dateCloture) }}
+    </div>
+
+    <div class="ligne">
+        {{ form_label(form.nbInscriptionsMax) }}
+        {{ form_widget(form.nbInscriptionsMax) }}
+        {{ form_errors(form.nbInscriptionsMax) }}
+    </div>
+
+    <div class="ligne">
+        {{ form_label(form.duree) }}
+        {{ form_widget(form.duree) }} minutes
+        {{ form_errors(form.duree) }}
+    </div>
+
+    <div class="ligne">
+        {{ form_label(form.detailSortie) }}
+        {{ form_widget(form.detailSortie) }}
+        {{ form_errors(form.detailSortie) }}
+    </div>
+
+    <div class="ligne" id="selectLieu">
+        {{ form_label(form.lieu) }}
+        {{ form_widget(form.lieu) }}
+        {{ form_errors(form.lieu) }}
+    </div>
+
+    <div id="detailsLieu">
+        <p>Ville : </p>
+        <p>Rue : </p>
+        <p>Code Postal : </p>
+        <p>Latitude : </p>
+        <p>Longitude : </p>
+    </div>
+
     {{ form_widget(form) }}
-    <input type="submit" value="Ajouter">
+
+    <input type="submit" class="btn btn-primary" value="Ajouter">
+
     {{ form_end(form) }}
 
-    <a href="{{ path('sortie_index') }}"><button>Annuler</button></a>
+    <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Annuler</button></a>
 {% endblock %}
 
 {% block title %}
-Créer une sortie
+    Créer une sortie
 {% endblock %}
-

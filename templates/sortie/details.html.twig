@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div class="container-sm">
         <h1 class="h3 mb-3 font-weight-normal">Afficher une sortie</h1>
-
         <div class="row">
             <div class="col-sm-5 offset-1">
                 <div>
@@ -72,25 +70,21 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     {% for participant in sortie.participants %}
                         <tr>
                             <td>{{ participant.pseudo }}</td>
                             <td><a class="nav-link" href="{{ path('app_participant_show', {'id': participant.id }) }}">{{ participant.nom }}</a></td>
-
                         </tr>
                     {% endfor %}
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
     <a href=javascript:history.go(-1)><button class="btn">Retour</button></a>
-
 {% endblock %}
 
 {% block title %}
-
+    Afficher une sortie
 {% endblock %}
 
