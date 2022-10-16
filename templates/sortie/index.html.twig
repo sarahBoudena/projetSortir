@@ -26,20 +26,23 @@
                     <label for="inputRecherche">Le nom de la sortie contient : </label>
                     <input type="text" id="inputRecherche" name="inputRecherche" placeholder="Recherche" class="">
                 </div>
-                <label for="inputDate">Entre</label>
+
+    {# Sélection d'une intervalle de dates #}
+                label for="inputDate">Entre</label>
                 <input type="date" id="inputDate" name="inputDate" class="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                    </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
 
                 <label for="inputDate">et</label>
                 <input type="date" id="inputDate" name="inputDate" class="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                    </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
 
             </div>
-            {# Sélection d'une intervalle de dates #}
+
+            {# Sélection des options de recherches checkbox #}
             <div class="col-5 ">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -62,8 +65,6 @@
                 <button type="button" class="btn btn-primary btn-lg">Rechercher</button>
             </div>
         </div>
-
-
     
         {# Affichage de la liste des sorties #}
         <div class="row">
@@ -88,8 +89,13 @@
                             <td>{{ sortie.nomSortie }}</td>
                             <td> {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
                             <td>{{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}}</td>
-                            <td>  XXX | {{ sortie.nbInscriptionsMax }}</td>
+                            <td>   {% set nbInscrit = 0 %}
+                                {% for participant in sortie.participants %}
+                                    {% set nbInscrit = nbInscrit + 1 %}
+                                {% endfor %}
+                                {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}</td>
                             <td>{{ sortie.etat.libelle }} </td>
+
                             <td>{% set inscrit = false %}
                                 {% for inscriptionSortie in app.user.inscription %}
                                     {% if inscriptionSortie == sortie %}
@@ -99,19 +105,26 @@
                                 {% if inscrit %}
                                     X
                                 {% endif %}
+
+
+            </td>
+                            <td>
+                                <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a></td>
+                            <td>
+                                {% if (sortie.dateCloture|date("Y-m-d : ") > 'now'|date("Y-m-d") ) %}
+                                    <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a>
+                                    {% if (sortie.dateCloture|date("U")> 'now'|date("U") ) %}
+                                        <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">
+                                            {% if inscrit %}
+                                                Se désister
+                                            {% endif %}
+                                            {% if not inscrit %}
+                                                S'inscrire
+                                            {% endif %}</a>
+                                    {% endif %}
+                                {% endif %}
                             </td>
-                            <td>{{ sortie.organisateur.pseudo }}</td>
-                            <td><a href="{{ path('details_index', {'id': sortie.id} ) }}" class="text-decoration-none">Détails</a>
-                                {% if (sortie.dateCloture|date("U")> 'now'|date("U") ) %}
-                                    <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}" class="text-decoration-none">
-                                        {% if inscrit %}
-                                            Se désister
-                                        {% endif %}
-                                        {% if not inscrit %}
-                                            S'inscrire
-                                        {% endif %}</a>
-                                {% endif %}</td>
-                        </tr>
+        </tr>
 
                     {% endfor %}
                     </tbody>

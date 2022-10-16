@@ -192,7 +192,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
             $this->inscription->add($inscription);
             $inscription->addParticipants($this);
         }
-
         return $this;
     }
 
