@@ -49,9 +49,9 @@ class MajEtatSortiesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
         $etats = $this->etatRepository->findAll();
         $sorties = $this->sortieRepository->findAll();
-        dump($etats);
 
         foreach ($sorties as $sortie){
              if (($sortie->getEtat()->getId() != 1) or ($sortie->getEtat()->getId() <= 6)) {
@@ -74,9 +74,6 @@ class MajEtatSortiesCommand extends Command
 
                 if(date('Y-m-d  H:i:s', strtotime('-1 m', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s')){
                             $sortie->setEtat($etats[5]);}
-
-
-
                 }
                 $this->manager->persist($sortie);
             }
