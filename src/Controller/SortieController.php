@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -20,17 +22,31 @@ class SortieController extends AbstractController
     #[Route('/', name: 'sortie_index')]
     public function index(
         SortieRepository $repository,
-        SiteRepository $siteRepository
+        SiteRepository $siteRepository,
+        ParticipantRepository $participantRepository,
+        Request $request,
     ): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+
+        if ($this->getUser()){
+            $pseudo=$this->getUser()->getUserIdentifier();
+            $user=$participantRepository->findOneBy(array('pseudo' => $pseudo));
+            $idSite=$user->getSite()->getId();
+        }
+
+        if ($request->request){
+
+        }
+
         $sites = $siteRepository->findAll();
-        $sorties = $repository->findAll();
+        $sorties = $repository->findBy(array('site'=> $idSite));
+
         return $this->render('sortie/index.html.twig', [
+            "sites"=>$sites,
             "sorties"=>$sorties,
-            "sites"=>$sites
         ]);
     }
 

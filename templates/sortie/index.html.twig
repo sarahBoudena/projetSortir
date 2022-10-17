@@ -15,7 +15,11 @@
                 <label for="selectSite">Site : </label>
                 <select class="form-select" name="selectSite" id="selectSite">
                     {% for site in sites %}
-                        <option value="{{ site.id }}">{{ site.nomSite }}</option>
+                        <option value="{{ site.id }}"
+                        {% if(site.id == app.user.site.id) %}
+                            selected
+                        {% endif %}
+                        >{{ site.nomSite }}</option>
                     {% endfor %}
                 </select>
 
@@ -58,7 +62,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary btn-lg">Rechercher</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="boutonRechercher" name="boutonRechercher" formmethod="post">Rechercher</button>
             </div>
         </div>
     
