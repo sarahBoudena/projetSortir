@@ -85,6 +85,22 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-sm-8">
+                <div id="map">}
+                    <script>
+
+                        var map = L.map('map').setView([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}], 13);
+
+                        var tiles = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
+                            maxZoom: 19,
+                            attribution: '&copy; <a href="http://stamen.com">Stamen</a>'
+                        }).addTo(map);
+
+                        var marker = L.marker([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}]).addTo(map);
+
+                    </script>
+                </div>
+            </div>
         </div>
         <a href=javascript:history.go(-1)><button class="btn btn-primary">Retour</button></a>
         {% if (app.user == sortie.organisateur and sortie.etat.id == 7) %}
