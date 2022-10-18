@@ -16,7 +16,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 
 
 #[Route('/participant')]
-class ParticipantController extends AbstractController
+class   ParticipantController extends AbstractController
 {
     #[Route('/', name: 'app_participant_index', methods: ['GET'])]
     public function index(ParticipantRepository $participantRepository): Response
