@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -56,6 +57,8 @@ class Sortie
     private ?Etat $etat = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message: "Par respect pour tes collègues inscrits, il est nécessaire de renseigner la raison de l'annulation.")]
+    #[Assert\NotNull(message: "Par respect pour tes collègues inscrits, il est nécessaire de renseigner la raison de l'annulation.")]
     private ?string $raisonAbandon = null;
 
     public function getId(): ?int

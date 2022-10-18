@@ -22,7 +22,6 @@ class ChangerEtatMeSortiesController extends AbstractController
                           Sortie                        $sortie,
                           EtatRepository                $etatRepository,
                           NotifierInterface             $notifier,
-                          SortieRepository              $sortieRepository,
                           Request                       $request
     ): Response
     {
@@ -32,19 +31,22 @@ class ChangerEtatMeSortiesController extends AbstractController
 
                 $form = $this->createForm(AnnulerSortieType::class, $sortie);
                 $form->handleRequest($request);
+                $sortie->setEtat($etatRepository->find(7));
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $sortie->setEtat($etatRepository->find(7));
                     $entityManager->persist($sortie);
                     $entityManager->flush();
                     $notifier->send(new Notification('La sortie a bien été annulée', ['browser']));
-                    return $this->redirectToRoute('sortie_index', array('sortieModifiee' => $sortie));
+                    return $this->redirectToRoute('sortie_index');
                 }
+                return $this->render('sortie/annulation.html.twig',["form"=>$form->createView()]);
             }
-            $sortie->setEtat($etatRepository->find(2));
-            $sortie->setRaisonAbandon('');
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-            $notifier->send(new Notification('La sortie a bien été restaurée', ['browser']));
+            if($sortie->getEtat()->getId() == 7)
+                {$sortie->setEtat($etatRepository->find(2));
+                $sortie->setRaisonAbandon('');
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+                $notifier->send(new Notification('La sortie a bien été restaurée', ['browser']));
+                return $this->redirectToRoute('sortie_index');}
         }
         return $this->redirectToRoute('sortie_index');
     }
