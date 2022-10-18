@@ -3,12 +3,12 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <div class="container-sm">
+    <div class="container-fluid">
         <div class="row">
             <h1>{{ participant.pseudo }}</h1>
             <div class="col-4">
                 <div class="photo">
-                    <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-thumbnail" alt="Photo de profil">
+                    <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-fluid" alt="Photo de profil">
                 </div>
             </div>
             <div class="col-4">
@@ -37,8 +37,10 @@
                     </tbody>
                 </table>
                 {% if ( participant == app.user) %}
-                    <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Retour à l'accueil </button></a>
-                    <button class="btn btn-primary" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
+                    <div class="text-center">
+                        <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Retour à l'accueil </button></a>
+                        <button class="btn btn-primary" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
+                    </div>
                 {% endif %}
                 {% if  ( participant != app.user)%}
                     <a href=javascript:history.go(-1)><button class="btn btn-primary">Retour </button></a>
