@@ -120,6 +120,9 @@
                                     {% endif %}
                                     {% if (app.user == sortie.organisateur) %}
                                         <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Annuler</a>
+                                        {% if ( sortieModifiee is defined) %}
+                                            coucou
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             </td>
