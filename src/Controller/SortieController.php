@@ -37,9 +37,21 @@ class SortieController extends AbstractController
             $idSite=$user->getSite()->getId();
         }
 
-        if ($request->request){
+        if ($request->request->get('boutonRechercher')){
             $siteFiltre = $request->request->get('selectSite');
-            $nomFiltre = $request->request->get('inputRecherche');
+            $nomFiltre = '%'.$request->request->get('inputRecherche').'%';
+            $dateDebutFiltre = $request->request->get('inputDateDebut');
+            $dateFinFiltre = $request->request->get('inputDateFin');
+            if($request->request->get('checkBoxOrganisateur')){
+                $organisateurFiltre = $user->getId();
+            }else{
+                $organisateurFiltre=null;
+            }
+            if($request->request->get('checkBoxInscrit')){
+                $organisateurFiltre = $user->getId();
+            }else{
+                $organisateurFiltre=null;
+            }
 
         }
 

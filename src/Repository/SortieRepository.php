@@ -58,52 +58,52 @@ class SortieRepository extends ServiceEntityRepository
 //     */
     public function findByFilter($site, $nom, $dateDebut, $dateFin, $organisateur, $inscrit, $nonInscrit, $passe): array
     {
-        $db = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
 
             if($organisateur!=null OR $inscrit!=null OR $nonInscrit!=null){
-                $db->join('s.participants', 'p' );
+                $qb->join('s.participants', 'p' );
             }
 
             if($organisateur!=null){
-                $db->andWhere('s.organisateur = orga' );
-                $db->setParameter('orga', $organisateur);
+                $qb->andWhere('s.organisateur = orga' );
+                $qb->setParameter('orga', $organisateur);
             }
 
             if ($inscrit!=null){
-                $db->andWhere('p.inscription = user' );
-                $db->setParameter('user', $inscrit);
+                $qb->andWhere('p.inscription = user' );
+                $qb->setParameter('user', $inscrit);
             }
 
             if ($nonInscrit!=null){
-                $db->andWhere('p.inscription != user1 AND p.organisateur != user2' );
-                $db->setParameter('user1', $nonInscrit);
-                $db->setParameter('user2', $nonInscrit);
+                $qb->andWhere('p.inscription != user1 AND p.organisateur != user2' );
+                $qb->setParameter('user1', $nonInscrit);
+                $qb->setParameter('user2', $nonInscrit);
             }
 
             if ($passe!=null){
-                $db->andWhere('s.etat = etat');
-                $db->setParameter('etat', $passe);
+                $qb->andWhere('s.etat = etat');
+                $qb->setParameter('etat', $passe);
             }
 
             if ($nom!=null){
-                $db->andWhere('s.nomSortie LIKE nom');
-                $db->setParameter('nom', $nom);
+                $qb->andWhere('s.nomSortie LIKE nom');
+                $qb->setParameter('nom', $nom);
             }
 
             if ($dateDebut!=null && $dateFin!=null){
-                $db->andWhere('s.dateDebut BETWEEN debut AND fin');
-                $db->setParameter('debut', $dateDebut);
-                $db->setParameter('fin', $dateFin);
+                $qb->andWhere('s.dateDebut BETWEEN debut AND fin');
+                $qb->setParameter('debut', $dateDebut);
+                $qb->setParameter('fin', $dateFin);
             }
 
-            $db->andWhere('s.site = site')
+            $qb->andWhere('s.site = site')
             ->setParameter('site', $site)
 
-            ->orderBy('s.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('s.id', 'ASC');
+            $req = $qb->getQuery();
 
-            return $db;
+
+            return $req->getResult();
     }
 
 //    public function findOneBySomeField($value): ?Sortie
