@@ -3,7 +3,7 @@
 {% block title %}Liste sorties{% endblock %}
 
 {% block body %}
-    <div class="container-sm">
+    <div class="container-fluid">
             <h3 class="d-flex justify-content-end">Date du jour : {{'now'|date('d/m/Y')}}</h3>
             {% if (app.user) %}
                 <h3 class="d-flex justify-content-end">Participant : {{ app.user.pseudo }}</h3>
@@ -61,6 +61,8 @@
                 <button type="button" class="btn btn-primary btn-lg">Rechercher</button>
             </div>
         </div>
+
+        <hr>
     
         {# Affichage de la liste des sorties #}
         <div class="row">
