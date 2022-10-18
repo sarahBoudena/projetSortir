@@ -55,6 +55,9 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $raisonAbandon = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -217,6 +220,18 @@ class Sortie
         if ($this->participants->removeElement($participants)) {
             $participants->removeInscription($this);
         }
+        return $this;
+    }
+
+    public function getRaisonAbandon(): ?string
+    {
+        return $this->raisonAbandon;
+    }
+
+    public function setRaisonAbandon(?string $raisonAbandon): self
+    {
+        $this->raisonAbandon = $raisonAbandon;
+
         return $this;
     }
 }
