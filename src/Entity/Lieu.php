@@ -93,4 +93,11 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return 'Nom du lieu : '.$this->nomLieu.' Rue : '.$this->rue.' Code Postal : '.$this->ville->getCodePostal().' Ville : '.$this->ville->getNomVille().' Lattitude : '.$this->latitude.' Longitude : '.$this->longitude;
+    }
+
+
 }

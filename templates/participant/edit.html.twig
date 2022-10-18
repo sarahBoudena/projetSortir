@@ -3,14 +3,15 @@
 {% block title %}Edit Participant{% endblock %}
 
 {% block body %}
-    <h1>Edit Participant</h1>
-
-    {{ include('participant/_form.html.twig', {'button_label': 'Save'}) }}
-    {%  for label, messages in app.flashes%}
-        {% for message in messages %}
-            <div id="alert" class="alert-{{ label }}">{{ message }}</div>
-        {% endfor %}
-    {% endfor %}
-
-
+    <div class="container-sm">
+        <div class="row">
+            <h1>Edit Participant</h1>
+            {{ include('participant/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+            {%  for label, messages in app.flashes%}
+                {% for message in messages %}
+                    <div id="alert" class="alert-{{ label }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
