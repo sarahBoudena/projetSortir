@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
-use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;

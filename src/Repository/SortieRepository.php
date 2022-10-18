@@ -73,19 +73,19 @@ class SortieRepository extends ServiceEntityRepository
             }
 
             if ($inscrit!=null){
-                $qb->join('s.participants', 'p' );
-                $qb->andWhere('p.inscription = :user' );
+                $qb->join('s.participants','p');
+                $qb->andWhere('p.id = :user');
                 $qb->setParameter('user', $inscrit);
             }
 
             if ($nonInscrit!=null){
-                $qb->join('s.participants', 'p' );
-                $qb->andWhere('p.inscription != :user' );
+                $qb->join('s.participants','p');
+                $qb->andWhere('p.id <> :user' );
                 $qb->setParameter('user', $nonInscrit);
             }
 
             if ($passe!=null){
-                $qb->andWhere('s.etat = etat');
+                $qb->andWhere('s.etat = :etat');
                 $qb->setParameter('etat', $passe);
             }
 
