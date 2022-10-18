@@ -82,7 +82,10 @@ class SortieRepository extends ServiceEntityRepository
 
             if ($nonInscrit!=null){
                 $qb->join('s.participants','p');
-                $qb->andWhere('p.id <> :user' );
+               // $qb->andWhere('p.id != :user' );
+                $qb->select('s')
+                    ->from('App:Sortie','sortie')
+                    ->andWhere('p.pseudo <> :user');
                 $qb->setParameter('user', $nonInscrit);
             }
 

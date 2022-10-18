@@ -56,7 +56,7 @@ class   SortieController extends AbstractController
             }
 
             if($request->request->get('checkBoxNonInscrit')=='coche'){
-                $nonInscritFiltre = $user->getId();
+                $nonInscritFiltre = $user->getPseudo();
             }else{
                 $nonInscritFiltre=null;
             }
