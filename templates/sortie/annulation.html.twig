@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annulation de Sortie{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    {{ form_start(form) }}
+
+    <h1>Annulation de Sortie</h1>
+
+    <p>C'est vraiment dommage, pourquoi annules tu cette sortie ?</p>
+
+
+
+        {{ form_label(form.raisonAbandon) }}
+        {{ form_widget(form.raisonAbandon) }}
+        {{ form_errors(form.raisonAbandon) }}
+
+    <div class="text-center">
+        <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+
+    </div>
+    {{ form_end(form) }}
+    <button class="btn btn-primary" onclick="window.location.href = '{{ path('sortie_index') }}';">Cesser l'annulation</button>
+
+
+</div>
+
+
+{% endblock %}
