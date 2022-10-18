@@ -69,35 +69,41 @@ class SortieRepository extends ServiceEntityRepository
                 $db->setParameter('orga', $organisateur);
             }
 
-            if ($inscrit){
+            if ($inscrit!=null){
                 $db->andWhere('p.inscription = user' );
                 $db->setParameter('user', $inscrit);
             }
 
-            if ($nonInscrit){
-                $db->andWhere('p.inscription IS NOT user' );
-                $db->setParameter('user', $nonInscrit);
+            if ($nonInscrit!=null){
+                $db->andWhere('p.inscription != user1 AND p.organisateur != user2' );
+                $db->setParameter('user1', $nonInscrit);
+                $db->setParameter('user2', $nonInscrit);
             }
 
-            if ($passe){
-
+            if ($passe!=null){
+                $db->andWhere('s.etat = etat');
+                $db->setParameter('etat', $passe);
             }
 
-            if ($passe){
-
+            if ($nom!=null){
+                $db->andWhere('s.nomSortie LIKE nom');
+                $db->setParameter('nom', $nom);
             }
 
-            $db->andWhere('s.site = site');
-            $db->setParameter('site', $site);
+            if ($dateDebut!=null && $dateFin!=null){
+                $db->andWhere('s.dateDebut BETWEEN debut AND fin');
+                $db->setParameter('debut', $dateDebut);
+                $db->setParameter('fin', $dateFin);
+            }
 
+            $db->andWhere('s.site = site')
+            ->setParameter('site', $site)
 
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-        ;
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+            return $db;
     }
 
 //    public function findOneBySomeField($value): ?Sortie

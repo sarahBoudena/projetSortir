@@ -38,6 +38,8 @@ class SortieController extends AbstractController
         }
 
         if ($request->request){
+            $siteFiltre = $request->request->get('selectSite');
+            $nomFiltre = $request->request->get('inputRecherche');
 
         }
 
@@ -49,6 +51,7 @@ class SortieController extends AbstractController
             "sorties"=>$sorties,
         ]);
     }
+
 
     #[Route('/ajout', name: 'sortie_ajout')]
     public function ajout(
@@ -84,6 +87,8 @@ class SortieController extends AbstractController
     #[Route('/details/{id}', name: 'details_index',
                              requirements: ['id' => '\d+']
     )]
+
+
     public function details(
         Sortie $id
     ): Response
