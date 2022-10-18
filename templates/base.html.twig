@@ -30,7 +30,9 @@
         {% block body %}{% endblock %}
         {%  for label, messages in app.flashes%}
             {% for message in messages %}
-                <div id="alert" class="alert-{{ label }}">{{ message }}</div>
+                <script>
+                    alert( '{{ message }}')
+                </script>
             {% endfor %}
         {% endfor %}
         <footer>

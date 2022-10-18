@@ -107,7 +107,7 @@
                                 <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
                             </td>
                             <td>
-                                {% if (sortie.dateCloture|date("Y-m-d : ") > 'now'|date("Y-m-d") ) %}
+                                {% if (sortie.etat.id != 6) %}
                                     <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a>
                                     {% if (sortie.dateCloture|date("U")> 'now'|date("U") ) %}
                                         <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">
@@ -117,6 +117,9 @@
                                             {% if not inscrit %}
                                                 S'inscrire
                                             {% endif %}</a>
+                                    {% endif %}
+                                    {% if (app.user == sortie.organisateur) %}
+                                        <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Annuler</a>
                                     {% endif %}
                                 {% endif %}
                             </td>
