@@ -12,6 +12,7 @@
             <h4>Filtrer les sorties</h4>
             {# Sélection du site #}
             <div class="col-5 ">
+                <form action="{{ path('sortie_index') }}" method="post">
                 <label for="selectSite">Site : </label>
                 <select class="form-select" name="selectSite" id="selectSite">
                     {% for site in sites %}
@@ -45,25 +46,26 @@
             {# Sélection des options de recherches checkbox #}
             <div class="col-5 ">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBoxOrganisateur" name="checkBoxOrganisateur">
+                    <input class="form-check-input" type="checkbox" value="coche" id="checkBoxOrganisateur" name="checkBoxOrganisateur">
                     <label class="form-check-label" for="checkBoxOrganisateur">Sorties dont je suis l'organisateur/trice</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBoxInscrit" name="checkBoxInscrit">
+                    <input class="form-check-input" type="checkbox" value="coche" id="checkBoxInscrit" name="checkBoxInscrit">
                     <label class="form-check-label" for="checkBoxInscrit">Sorties auxquelles je suis inscrit/e</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBoxNonInscrit" name="checkBoxNonInscrit">
+                    <input class="form-check-input" type="checkbox" value="coche" id="checkBoxNonInscrit" name="checkBoxNonInscrit">
                     <label class="form-check-label" for="checkBoxNonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkBoxPasse" name="checkBoxPasse">
+                    <input class="form-check-input" type="checkbox" value="coche" id="checkBoxPasse" name="checkBoxPasse">
                     <label class="form-check-label" for="checkBoxPasse">Sorties passées</label>
                 </div>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-primary btn-lg" id="boutonRechercher" name="boutonRechercher" formmethod="post">Rechercher</button>
+                <button type="submit" formaction="" class="btn btn-primary btn-lg" value="boutonRechercher" id="boutonRechercher" name="boutonRechercher">Rechercher</button>
             </div>
+            </form>
         </div>
     
         {# Affichage de la liste des sorties #}

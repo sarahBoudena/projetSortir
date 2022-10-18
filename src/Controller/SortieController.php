@@ -27,6 +27,8 @@ class SortieController extends AbstractController
         Request $request,
     ): Response
     {
+        $sites = $siteRepository->findAll();
+
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -37,25 +39,43 @@ class SortieController extends AbstractController
             $idSite=$user->getSite()->getId();
         }
 
-        if ($request->request->get('boutonRechercher')){
+        if ($request->request->get("boutonRechercher")){
             $siteFiltre = $request->request->get('selectSite');
             $nomFiltre = '%'.$request->request->get('inputRecherche').'%';
             $dateDebutFiltre = $request->request->get('inputDateDebut');
             $dateFinFiltre = $request->request->get('inputDateFin');
-            if($request->request->get('checkBoxOrganisateur')){
-                $organisateurFiltre = $user->getId();
-            }else{
-                $organisateurFiltre=null;
-            }
-            if($request->request->get('checkBoxInscrit')){
+
+            if($request->request->get('checkBoxOrganisateur')=='coche'){
                 $organisateurFiltre = $user->getId();
             }else{
                 $organisateurFiltre=null;
             }
 
+            if($request->request->get('checkBoxInscrit')=='coche'){
+                $inscritFiltre = $user->getId();
+            }else{
+                $inscritFiltre=null;
+            }
+
+            if($request->request->get('checkBoxNonInscrit')=='coche'){
+                $nonInscritFiltre = $user->getId();
+            }else{
+                $nonInscritFiltre=null;
+            }
+
+            if($request->request->get('checkBoxPasse')=='coche'){
+                $passeFiltre = 5;
+            }else{
+                $passeFiltre=null;
+            }
+
+            $sorties = $repository->findByFilter($siteFiltre, $nomFiltre,$dateDebutFiltre,$dateFinFiltre,$organisateurFiltre,$inscritFiltre,$nonInscritFiltre,$passeFiltre);
+
+            return $this->render('sortie/index.html.twig', [
+                "sites"=>$sites,
+                "sorties"=>$sorties,
+            ]);
         }
-
-        $sites = $siteRepository->findAll();
         $sorties = $repository->findBy(array('site'=> $idSite));
 
         return $this->render('sortie/index.html.twig', [

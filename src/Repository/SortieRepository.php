@@ -60,24 +60,28 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
 
-            if($organisateur!=null OR $inscrit!=null OR $nonInscrit!=null){
-                $qb->join('s.participants', 'p' );
-            }
+        $qb->andWhere('s.site = :site')
+       ->setParameter('site', $site);
+
+//            if($organisateur!=null OR $inscrit!=null OR $nonInscrit!=null){
+//                $qb->join('', 'p' );
+//            }
 
             if($organisateur!=null){
-                $qb->andWhere('s.organisateur = orga' );
+                $qb->andWhere('s.organisateur = :orga' );
                 $qb->setParameter('orga', $organisateur);
             }
 
             if ($inscrit!=null){
-                $qb->andWhere('p.inscription = user' );
+                $qb->join('s.participants', 'p' );
+                $qb->andWhere('p.inscription = :user' );
                 $qb->setParameter('user', $inscrit);
             }
 
             if ($nonInscrit!=null){
-                $qb->andWhere('p.inscription != user1 AND p.organisateur != user2' );
-                $qb->setParameter('user1', $nonInscrit);
-                $qb->setParameter('user2', $nonInscrit);
+                $qb->join('s.participants', 'p' );
+                $qb->andWhere('p.inscription != :user' );
+                $qb->setParameter('user', $nonInscrit);
             }
 
             if ($passe!=null){
@@ -86,20 +90,16 @@ class SortieRepository extends ServiceEntityRepository
             }
 
             if ($nom!=null){
-                $qb->andWhere('s.nomSortie LIKE nom');
+                $qb->andWhere("s.nomSortie LIKE :nom");
                 $qb->setParameter('nom', $nom);
             }
 
             if ($dateDebut!=null && $dateFin!=null){
-                $qb->andWhere('s.dateDebut BETWEEN debut AND fin');
+                $qb->andWhere('s.dateDebut BETWEEN :debut AND :fin');
                 $qb->setParameter('debut', $dateDebut);
                 $qb->setParameter('fin', $dateFin);
             }
 
-            $qb->andWhere('s.site = site')
-            ->setParameter('site', $site)
-
-            ->orderBy('s.id', 'ASC');
             $req = $qb->getQuery();
 
 
