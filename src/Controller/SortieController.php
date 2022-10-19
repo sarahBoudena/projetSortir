@@ -56,7 +56,7 @@ class   SortieController extends AbstractController
             }
 
             if($request->request->get('checkBoxNonInscrit')=='coche'){
-                $nonInscritFiltre = $user->getPseudo();
+                $nonInscritFiltre = $user->getId();
             }else{
                 $nonInscritFiltre=null;
             }
@@ -74,7 +74,7 @@ class   SortieController extends AbstractController
                 "sorties"=>$sorties,
             ]);
         }
-        $sorties = $repository->findBy(array('site'=> $idSite, 'etat'=>array(2,3,4,5,7)));
+        $sorties = $repository->findBy(array('site'=> $idSite, 'etat'=>array(2,3,4,7)));
 
         return $this->render('sortie/index.html.twig', [
             "sites"=>$sites,
