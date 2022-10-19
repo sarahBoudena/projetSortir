@@ -37,7 +37,8 @@
                 </div>
             </div>
             <div class="col-sm-5 offset-1">
-                <div>
+                <img src="{{ asset(sortie.urlPhoto) }}" class="img-thumbnail" alt="Illustration du thème de la soirée">
+                {#<div>
                     <label for="inputLieu" class="form-label fw-semibold">Lieu: </label>
                     {{ sortie.lieu.nomLieu }}
                 </div>
@@ -60,7 +61,7 @@
                 <div>
                     <label for="inputLongitude" class="form-label fw-semibold">Longitude: </label>
                     {{ sortie.lieu.longitude }}
-                </div>
+                </div>#}
             </div>
         </div>
         <hr>
@@ -87,8 +88,18 @@
                     </tbody>
                 </table>
             </div>
+            
             <div class="col-sm-8">
                 <div id="map">}
+
+                    {#Affichage de la carte#}
+
+
+
+
+
+
+
                     <script>
 
                         var map = L.map('map').setView([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}], 13);
@@ -100,16 +111,21 @@
 
                         var marker = L.marker([{{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}]).addTo(map);
 
+
+                        marker.bindPopup("<h3>Coordonées</h3><h4>{{ sortie.lieu.nomLieu }}<h4><br>{{ sortie.lieu.rue }}<br>{{ sortie.lieu.ville.codePostal }}<br>{{ sortie.lieu.ville.nomVille }}").openPopup();
+
+
+
                     </script>
                 </div>
             </div>
         </div>
         <a href=javascript:history.go(-1)><button class="btn btn-primary">Retour</button></a>
         {% if (app.user == sortie.organisateur and sortie.etat.id == 7) %}
-            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Restaurer</a>
+            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}"><button class="btn btn-primary">Restaurer</button></a>
         {% endif %}
         {% if (app.user == sortie.organisateur and sortie.etat.id != 7) %}
-            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Annuler</a>
+            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}"><button class="btn btn-primary">Annuler</button></a>
         {% endif %}
 
     </div>

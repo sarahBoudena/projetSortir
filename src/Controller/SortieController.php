@@ -10,6 +10,7 @@ use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -106,6 +107,29 @@ class   SortieController extends AbstractController
             $sortie->setSite($organisateur->getSite());
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
+
+            /*$uploadedFile = ($form['imageFile']->getData());
+            if($uploadedFile) {
+                $destination = $this->getParameter('kernel.project_dir') . '/public/img/sorties';
+                $newFilename = 'img/sorties/'.$sortie->getNomSortie().'.'.$uploadedFile->guessExtension();
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                $ancienneImage = $sortie->getUrlPhoto();
+
+                if ($ancienneImage != 'img/sorties/sortie_lieu_defaut.png'){
+                    $filesystem = new Filesystem();
+                    $filesystem->remove('path/to/file/file.pdf');$filesystem->remove($ancienneImage);
+                }
+            }
+            if(!$uploadedFile && $sortie->getUrlPhoto()==null){
+                $newFilename="img/sorties/sortie_lieu_defaut.png";
+            }
+            $sortie->setUrlPhoto($newFilename);*/
+
+
+
             $entityManager->flush();
             return $this->redirectToRoute('sortie_index', array('sortieModifiee' => $sortie));
         }
