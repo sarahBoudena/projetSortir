@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -57,17 +58,58 @@ class SortieRepository extends ServiceEntityRepository
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByFilter($site, $nom, $dateDebut, $dateFin, $organisateur, $inscrit, $nonInscrit, $passe): array
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->andWhere('s.site = :site')
+       ->setParameter('site', $site);
+
+//            if($organisateur!=null OR $inscrit!=null OR $nonInscrit!=null){
+//                $qb->join('', 'p' );
+//            }
+
+            if($organisateur!=null){
+                $qb->andWhere('s.organisateur = :orga' );
+                $qb->setParameter('orga', $organisateur);
+            }
+
+            if ($inscrit!=null){
+                $qb->join('s.participants','p');
+                $qb->andWhere('p.id = :user');
+                $qb->setParameter('user', $inscrit);
+            }
+
+            if ($nonInscrit!=null){
+                $qb->join('s.participants','p');
+               // $qb->andWhere('p.id != :user' );
+                $qb->select('s')
+                    ->from('App:Sortie','sortie')
+                    ->andWhere('p.pseudo <> :user');
+                $qb->setParameter('user', $nonInscrit);
+            }
+
+            if ($passe!=null){
+                $qb->andWhere('s.etat = :etat');
+                $qb->setParameter('etat', $passe);
+            }
+
+            if ($nom!=null){
+                $qb->andWhere("s.nomSortie LIKE :nom");
+                $qb->setParameter('nom', $nom);
+            }
+
+            if ($dateDebut!=null && $dateFin!=null){
+                $qb->andWhere('s.dateDebut BETWEEN :debut AND :fin');
+                $qb->setParameter('debut', $dateDebut);
+                $qb->setParameter('fin', $dateFin);
+            }
+
+            $req = $qb->getQuery();
+
+
+            return $req->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Sortie
 //    {

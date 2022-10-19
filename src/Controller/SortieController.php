@@ -20,19 +20,68 @@ class   SortieController extends AbstractController
     #[Route('/', name: 'sortie_index')]
     public function index(
         SortieRepository $repository,
-        SiteRepository $siteRepository
+        SiteRepository $siteRepository,
+        ParticipantRepository $participantRepository,
+        Request $request,
     ): Response
     {
+        $sites = $siteRepository->findAll();
+
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $sites = $siteRepository->findAll();
-        $sorties = $repository->findAll();
+
+        if ($this->getUser()){
+            $pseudo=$this->getUser()->getUserIdentifier();
+            $user=$participantRepository->findOneBy(array('pseudo' => $pseudo));
+            $idSite=$user->getSite()->getId();
+        }
+
+        if ($request->request->get("boutonRechercher")){
+            $siteFiltre = $request->request->get('selectSite');
+            $nomFiltre = '%'.$request->request->get('inputRecherche').'%';
+            $dateDebutFiltre = $request->request->get('inputDateDebut');
+            $dateFinFiltre = $request->request->get('inputDateFin');
+
+            if($request->request->get('checkBoxOrganisateur')=='coche'){
+                $organisateurFiltre = $user->getId();
+            }else{
+                $organisateurFiltre=null;
+            }
+
+            if($request->request->get('checkBoxInscrit')=='coche'){
+                $inscritFiltre = $user->getId();
+            }else{
+                $inscritFiltre=null;
+            }
+
+            if($request->request->get('checkBoxNonInscrit')=='coche'){
+                $nonInscritFiltre = $user->getPseudo();
+            }else{
+                $nonInscritFiltre=null;
+            }
+
+            if($request->request->get('checkBoxPasse')=='coche'){
+                $passeFiltre = 5;
+            }else{
+                $passeFiltre=null;
+            }
+
+            $sorties = $repository->findByFilter($siteFiltre, $nomFiltre,$dateDebutFiltre,$dateFinFiltre,$organisateurFiltre,$inscritFiltre,$nonInscritFiltre,$passeFiltre);
+
+            return $this->render('sortie/index.html.twig', [
+                "sites"=>$sites,
+                "sorties"=>$sorties,
+            ]);
+        }
+        $sorties = $repository->findBy(array('site'=> $idSite));
+
         return $this->render('sortie/index.html.twig', [
+            "sites"=>$sites,
             "sorties"=>$sorties,
-            "sites"=>$sites
         ]);
     }
+
 
     #[Route('/ajout', name: 'sortie_ajout')]
     public function ajout(
@@ -68,6 +117,8 @@ class   SortieController extends AbstractController
     #[Route('/details/{id}', name: 'details_index',
                              requirements: ['id' => '\d+']
     )]
+
+
     public function details(
         Sortie $id
     ): Response
