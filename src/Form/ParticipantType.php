@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,6 +25,7 @@ class ParticipantType extends AbstractType
             ->add('telephone')
             ->add('mail', null, ['label'=>'Email'] )
             ->add('plainPassword', RepeatedType::class, [
+                'label'=>'Mot de passe',
                 'type' => PasswordType::class,
                 'options' => [
                     'attr' => [
@@ -53,6 +55,10 @@ class ParticipantType extends AbstractType
             ])
             ->add('site', EntityType::class,
                 ['class'=>Site::class, 'choice_label'=>'nomSite', 'label'=>'Site de rattachement'])
+            ->add('imageFile', FileType::class,
+                ['mapped' => false,
+                'label'=>'Image de profil',
+                    'required' => false])
         ;
     }
 
