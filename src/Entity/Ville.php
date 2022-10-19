@@ -47,4 +47,9 @@ class Ville
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return 'Ville'.$this->nomVille.$this->getNomVille();
+    }
 }
