@@ -4,14 +4,10 @@ namespace App\Command;
 
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Stmt\Break_;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 

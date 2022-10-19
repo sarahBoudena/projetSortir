@@ -47,6 +47,14 @@
                     {{ form_widget(form.detailSortie) }}
                     {{ form_errors(form.detailSortie) }}
                 </div>
+
+                <div class="ligne">
+                    <th>{{ form_label(form.imageFile) }}</th>
+                    <td>{{ form_row(form.imageFile) }}</td>
+                    <td>{{ form_errors(form.imageFile) }}</td>
+                </div>
+
+
             </div>
             <div class="col-5 offset-1">
                 <div class="ligne" id="selectLieu">
@@ -54,6 +62,8 @@
                     {{ form_widget(form.lieu) }}
                     {{ form_errors(form.lieu) }}
                 </div>
+
+
 
                 <div id="detailsLieu">
                     <p>Ville : </p>
