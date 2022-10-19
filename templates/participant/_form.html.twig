@@ -10,6 +10,9 @@
         <div class="col-4">
             <div class="photo">
                 <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-thumbnail" alt="Photo de profil">
+                {% if app.user.urlPhotoProfil != 'img/participant/photo_profil_defaut.png' %}
+                    <a class="btn btn-primary" href = "{{ path('supprimer_image', {'id' : app.user.id}) }}">Supprimer l'image</a>
+                {% endif %}
             </div>
 
         </div>
@@ -65,6 +68,14 @@
                             <td>{{ form_errors(form.site) }}</td>
                         </div>
                     </tr>
+                    <tr>
+                        <div class="ligne">
+                            <th>{{ form_label(form.imageFile) }}</th>
+                            <td>{{ form_row(form.imageFile) }}</td>
+                            <td>{{ form_errors(form.imageFile) }}</td>
+                        </div>
+                    </tr>
+
                         {{ form_end(form) }}
                 </tbody>
             </table>

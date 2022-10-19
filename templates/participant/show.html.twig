@@ -8,7 +8,12 @@
             <h1>{{ participant.pseudo }}</h1>
             <div class="col-4">
                 <div class="photo">
-                    <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-fluid" alt="Photo de profil">
+                    {% if (app.user.urlPhotoProfil is defined) %}
+                        <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-fluid" alt="Photo de profil">
+                    {% endif %}
+                    {% if (app.user.urlPhotoProfil is not defined) %}
+                        <img src="img/participant/photo_profil_defaut.png" class="img-fluid" alt="Photo de profil">
+                    {% endif %}
                 </div>
             </div>
             <div class="col-4">
