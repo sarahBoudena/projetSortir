@@ -19,7 +19,6 @@
         "symfony/form": "6.1.*",
         "symfony/framework-bundle": "6.1.*",
         "symfony/mailer": "6.1.*",
-        "symfony/messenger": "6.1.*",
         "symfony/notifier": "6.1.*",
         "symfony/proxy-manager-bridge": "6.1.*",
         "symfony/runtime": "6.1.*",
