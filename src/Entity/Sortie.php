@@ -31,7 +31,7 @@ class Sortie
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Expression('this.getDateLimiteInscription() < this.getDateHeureDebut()', message: 'La date limite d\'inscription ne peut être après la date de début de la sortie')]
+    #[Assert\Expression('this.getDateCloture() < this.getDateDebut()', message: 'La date limite d\'inscription ne peut être après la date de début de la sortie')]
     #[Assert\NotBlank(message: 'La date de clôture d\'inscriptions est obligatoire.')]
     #[Assert\NotNull(message: 'La date de clôture d\'inscriptions est obligatoire.')]
     private ?\DateTimeInterface $dateCloture = null;

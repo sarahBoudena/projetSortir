@@ -65,21 +65,20 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere('s.site = :site')
        ->setParameter('site', $site);
 
-//            if($organisateur!=null OR $inscrit!=null OR $nonInscrit!=null){
-//                $qb->join('', 'p' );
-//            }
-
+            // CHECKBOX ORGANISATEUR
             if($organisateur!=null){
                 $qb->andWhere('s.organisateur = :orga' );
                 $qb->setParameter('orga', $organisateur);
             }
 
+            // CHECKBOX INSCRIT
             if ($inscrit!=null){
                 $qb->join('s.participants','p');
                 $qb->andWhere('p.id = :user');
                 $qb->setParameter('user', $inscrit);
             }
 
+            // CHECKBOX NON INSCRIT
             if ($nonInscrit!=null){
                 $qb->join('s.participants','p');
                // $qb->andWhere('p.id != :user' );
@@ -89,16 +88,19 @@ class SortieRepository extends ServiceEntityRepository
                 $qb->setParameter('user', $nonInscrit);
             }
 
+            // CHECKBOX PASSEE
             if ($passe!=null){
                 $qb->andWhere('s.etat = :etat');
                 $qb->setParameter('etat', $passe);
             }
 
+            // CHAMPS DE RECHERCHE NOM
             if ($nom!=null){
                 $qb->andWhere("s.nomSortie LIKE :nom");
                 $qb->setParameter('nom', $nom);
             }
 
+            // CHAMPS INTERVAL DE DATES
             if ($dateDebut!=null && $dateFin!=null){
                 $qb->andWhere('s.dateDebut BETWEEN :debut AND :fin');
                 $qb->setParameter('debut', $dateDebut);
