@@ -62,36 +62,41 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
 
+        //SELECT SITE
         $qb->andWhere('s.site = :site')
        ->setParameter('site', $site);
 
-            // CHECKBOX ORGANISATEUR
-            if($organisateur!=null){
-                $qb->andWhere('s.organisateur = :orga' );
-                $qb->setParameter('orga', $organisateur);
-            }
+        // CHECKBOX ORGANISATEUR
+        if($organisateur!=null){
+            $qb->andWhere('s.organisateur = :orga' );
+            $qb->setParameter('orga', $organisateur);
+        }
 
-            // CHECKBOX INSCRIT
-            if ($inscrit!=null){
-                $qb->join('s.participants','p');
-                $qb->andWhere('p.id = :user');
-                $qb->setParameter('user', $inscrit);
-            }
+        // CHECKBOX INSCRIT
+        if ($inscrit!=null){
+            $qb->join('s.participants','p');
+            $qb->andWhere('p.id = :user');
+            $qb->setParameter('user', $inscrit);
+        }
 
             // CHECKBOX NON INSCRIT
-            if ($nonInscrit!=null){
-                $qb->join('s.participants','p');
-               // $qb->andWhere('p.id != :user' );
-                $qb->select('s')
-                    ->from('App:Sortie','sortie')
-                    ->andWhere('p.pseudo <> :user');
-                $qb->setParameter('user', $nonInscrit);
-            }
+        if($nonInscrit!=null){
+            $tempsQuery = $this->createQueryBuilder('sortie')
+                ->select('sortie.id')
+                ->leftJoin('sortie.participants', 'par')
+                ->andWhere('par.id = :userId');
+            $qb = $qb
+                ->andWhere('s.id NOT IN('.$tempsQuery->getDQL().')')
+                ->andWhere('s.etat = 2 or s.etat = 3')
+                ->setParameter('userId',$nonInscrit);
+        }
 
             // CHECKBOX PASSEE
             if ($passe!=null){
                 $qb->andWhere('s.etat = :etat');
                 $qb->setParameter('etat', $passe);
+            }if($passe==null){
+                $qb->andWhere('s.etat = 2 or s.etat = 3 or s.etat = 4');
             }
 
             // CHAMPS DE RECHERCHE NOM
