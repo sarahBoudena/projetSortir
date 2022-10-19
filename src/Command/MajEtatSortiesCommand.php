@@ -54,7 +54,7 @@ class MajEtatSortiesCommand extends Command
         $sorties = $this->sortieRepository->findAll();
 
         foreach ($sorties as $sortie){
-             if (($sortie->getEtat()->getId() != 1) or ($sortie->getEtat()->getId() <= 6)) {
+             if (($sortie->getEtat()->getId() != 1) or ($sortie->getEtat()->getId() <= 7)) {
                 $aujourdhui = date('Y-m-d  H:i:s');
 
                 if(strtotime($sortie->getDateCloture()->format('Y-m-d  H:i:s')) > strtotime($aujourdhui)){
@@ -65,16 +65,17 @@ class MajEtatSortiesCommand extends Command
                     $sortie->setEtat($etats[2]);}
 
                 if(strtotime($sortie->getDateDebut()->format('Y-m-d  H:i:s')) >= date('Y-m-d  H:i:s', strtotime(-$sortie->getDuree() . ' i', strtotime(($aujourdhui)))) &&
-                            date('Y-m-d  H:i:s', strtotime(-$sortie->getDuree().'i', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s')){
+                            date('Y-m-d  H:i:s', strtotime(-$sortie->getDuree().' minute', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s')){
                             $sortie->setEtat($etats[3]);}
 
-                if(date('Y-m-d  H:i:s', strtotime(-$sortie->getDuree().'i', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s') &&
-                     date('Y-m-d  H:i:s', strtotime('-1 m', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s')){
+                if(strtotime(date('Y-m-d  H:i:s', strtotime(-$sortie->getDuree().' minute', strtotime(($aujourdhui))))) > strtotime($sortie->getDateDebut()->format('Y-m-d  H:i:s')) &&
+                    strtotime(date('Y-m-d  H:i:s', strtotime('-1 month', strtotime(($aujourdhui))))) < strtotime($sortie->getDateDebut()->format('Y-m-d  H:i:s'))){
                      $sortie->setEtat($etats[4]);}
 
-                if(date('Y-m-d  H:i:s', strtotime('-1 m', strtotime(($aujourdhui)))) > $sortie->getDateDebut()->format('Y-m-d  H:i:s')){
+                if(strtotime(date('Y-m-d  H:i:s', strtotime('-1 month', strtotime(($aujourdhui))))) > strtotime($sortie->getDateDebut()->format('Y-m-d  H:i:s'))){
                             $sortie->setEtat($etats[5]);}
                 }
+
                 $this->manager->persist($sortie);
             }
         $this->manager->flush();
