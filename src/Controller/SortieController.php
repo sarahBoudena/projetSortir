@@ -74,7 +74,7 @@ class   SortieController extends AbstractController
                 "sorties"=>$sorties,
             ]);
         }
-        $sorties = $repository->findBy(array('site'=> $idSite));
+        $sorties = $repository->findBy(array('site'=> $idSite, 'etat'=>array(2,3,4,5,7)));
 
         return $this->render('sortie/index.html.twig', [
             "sites"=>$sites,
