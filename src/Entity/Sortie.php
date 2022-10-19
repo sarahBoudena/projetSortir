@@ -67,7 +67,7 @@ class Sortie
     private ?Etat $etat = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $raisonAbandon = null;
+    private ?string $raisonAbandon;
 
     public function getId(): ?int
     {

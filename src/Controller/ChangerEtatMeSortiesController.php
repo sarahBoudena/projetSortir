@@ -33,10 +33,13 @@ class ChangerEtatMeSortiesController extends AbstractController
                 $form->handleRequest($request);
                 $sortie->setEtat($etatRepository->find(7));
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($sortie);
-                    $entityManager->flush();
-                    $notifier->send(new Notification('La sortie a bien été annulée', ['browser']));
-                    return $this->redirectToRoute('sortie_index');
+                    if($sortie->getRaisonAbandon() != null){
+                        $entityManager->persist($sortie);
+                        $entityManager->flush();
+                        $notifier->send(new Notification('La sortie a bien été annulée', ['browser']));
+                        return $this->redirectToRoute('sortie_index');
+                    }
+                    $notifier->send(new Notification('Par respect pour tes collègues inscrits, il est nécessaire de renseigner la raison de l\'annulation.', ['browser']));
                 }
                 return $this->render('sortie/annulation.html.twig',["form"=>$form->createView()]);
             }

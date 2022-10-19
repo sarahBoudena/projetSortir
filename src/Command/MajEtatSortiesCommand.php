@@ -54,7 +54,7 @@ class MajEtatSortiesCommand extends Command
         $sorties = $this->sortieRepository->findAll();
 
         foreach ($sorties as $sortie){
-             if (($sortie->getEtat()->getId() != 1) or ($sortie->getEtat()->getId() <= 7)) {
+             if (($sortie->getEtat()->getId() != 1) or ($sortie->getEtat()->getId() <= 6)) {
                 $aujourdhui = date('Y-m-d  H:i:s');
 
                 if(strtotime($sortie->getDateCloture()->format('Y-m-d  H:i:s')) > strtotime($aujourdhui)){
