@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,7 +21,11 @@ class LieuType extends AbstractType
             ->add('rue')
             ->add('latitude',)
             ->add('longitude',)
-            ->add('ville')
+            ->add('ville',
+            EntityType::class,[
+                'class'=>Ville::class,
+                    'choice_label'=>'nom_ville'
+                ])
         ;
     }
 
