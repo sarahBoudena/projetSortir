@@ -90,6 +90,8 @@
         let selectLieu = document.getElementById('selectLieu');
         let divDetailsLieu = document.getElementById('detailsLieu');
 
+        onload(changement());
+
         function changement() {
             //Appel asynchrone à l'api
             let id = document.getElementById("sortie_lieu").value;
@@ -105,46 +107,8 @@
                     }
                 );
         }
-
-
     </script>
 {% endblock %}
-
-
-{#{% block javascript %}#}
-{#    <script>#}
-{#        const VILLE = "Ville : ";#}
-{#        const RUE = "Rue : ";#}
-{#        const CP = "Code Postal : ";#}
-{#        const LATITUDE = "Latitude : ";#}
-{#        const LONGITUDE = "Longitude";#}
-
-{#        let selectLieu = document.getElementById('selectLieu');#}
-{#        let divDetailsLieu = document.getElementById('detailsLieu');#}
-
-{#        selectLieu.addEventListener("change", ()=>{#}
-{#        //Appel asynchrone à l'api#}
-{#        fetch(#}
-{#            "http://127.0.0.1:8000/afficher_details_lieu"#}
-{#        )#}
-{#            .then((reponse)=> reponse.json())#}
-{#            .then((donnees) =>{#}
-{#                    for (const chaqueLieu of donnees) {#}
-{#                        if (chaqueLieu.id == selectLieu.value){#}
-{#                        let nouvelElement = document.createElement("p");#}
-{#                        nouvelElement.innerHTML = '<p>' + RUE + chaqueLieu.rue + '</p> <p>' + LATITUDE + chaqueLieu.latitude + '</p><p>' + LONGITUDE + chaqueLieu.longitude;#}
-{#                        divDetailsLieu.appendChild(nouvelElement);#}
-{#                        }#}
-{#                    }#}
-{#                }#}
-{#            );#}
-{#    }#}
-{#        );#}
-
-
-{#    </script>#}
-{#{% endblock %}#}
-
 
 {% block title %}
     Créer une sortie
