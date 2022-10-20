@@ -97,6 +97,7 @@ class   SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            if($request->request->get('boutonPublier'))
             $etat = $etatRepository->findOneBy(array('id'=>1));
             if (!$this->getUser()) {
                 return $this->redirectToRoute('app_login');

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -24,13 +25,15 @@ class SortieType extends AbstractType
                 'label'=> 'Nom de la sortie :'
             ])
             ->add('dateDebut', DateTimeType::class,[
-                'label'=>'Date et heure de la sortie :'
+                'label'=>'Date et heure de la sortie :',
+                'data'=> new \DateTime("now")
                 ])
             ->add('duree', NumberType::class,[
                 'label'=> 'Durée :'
             ])
             ->add('dateCloture', DateType::class,[
-                'label'=>'Date de clôture :'
+                'label'=>'Date de clôture :',
+                'data'=> new \DateTime("now")
             ])
             ->add('nbInscriptionsMax', NumberType::class,[
                 'label'=>'Nombre de places :'
@@ -45,15 +48,16 @@ class SortieType extends AbstractType
 //            ->add('urlPhoto')
 //            ->add('organisateur')
 //            ->add('site')
+
             ->add('lieu', EntityType::class,[
                 'class'=> Lieu::class,
                 'choice_label'=>'nom_lieu',
                 'expanded'=>false,
                 'multiple'=>false
             ])
-            ->add('published', CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom'],]);
-        ;
+            ->add('publie', CheckboxType::class, [
+                'label'=>'Publier'
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

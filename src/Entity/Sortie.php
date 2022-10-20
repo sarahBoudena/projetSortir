@@ -69,6 +69,26 @@ class Sortie
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $raisonAbandon;
 
+    #[ORM\Column(type: Types::BOOLEAN, nullable: false)]
+    private ?bool $publie = null;
+
+    /**
+     * @return bool|null
+     */
+    public function getPublie(): ?bool
+    {
+        return $this->publie;
+    }
+
+    /**
+     * @param bool|null $publie
+     */
+    public function setPublie(?bool $publie): void
+    {
+        $this->publie = $publie;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

@@ -54,6 +54,9 @@
                     <td>{{ form_errors(form.imageFile) }}</td>
                 </div>
 
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" value="{{ field_name(form.publie)}}">Publier</input>
+                </div>
 
             </div>
             <div class="col-5 offset-1">
@@ -62,8 +65,6 @@
                     {{ form_widget(form.lieu) }}
                     {{ form_errors(form.lieu) }}
                 </div>
-
-
 
                 <div id="detailsLieu">
                     <p>Ville : </p>
@@ -76,11 +77,10 @@
         </div>
         <div class="row">
             <div class="col-11 offset-1">
-                    {{ form_widget(form) }}
-
+                {{ form_end(form) }}
                     <input type="submit" class="btn btn-primary" value="Ajouter">
 
-                    {{ form_end(form) }}
+
 
                     <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Annuler</button></a>
             </div>
