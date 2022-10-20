@@ -16,7 +16,7 @@ class Lieu
     #[ORM\Column(length: 30)]
     private ?string $nomLieu = null;
 
-    #[ORM\Column(length: 30, nullable: true)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $rue = null;
 
     #[ORM\Column(nullable: true)]
@@ -93,4 +93,11 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return 'Nom du lieu : '.$this->nomLieu.' Rue : '.$this->rue.' Code Postal : '.$this->ville->getCodePostal().' Ville : '.$this->ville->getNomVille().' Latitude : '.$this->latitude.' Longitude : '.$this->longitude;
+    }
+
+
 }

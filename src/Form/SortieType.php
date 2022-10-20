@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -37,6 +38,10 @@ class SortieType extends AbstractType
             ->add('detailSortie', TextType::class,[
                 'label'=>'Description et infos :'
             ])
+            ->add('imageFile', FileType::class, [
+                    'mapped' => false,
+                    'label'=>'Illustration de la soirée',
+                    'required' => false])
 //            ->add('urlPhoto')
 //            ->add('organisateur')
 //            ->add('site')

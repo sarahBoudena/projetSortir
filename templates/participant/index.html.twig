@@ -3,51 +3,54 @@
 {% block title %}Participant index{% endblock %}
 
 {% block body %}
-    <h1>Participant index</h1>
+    <div class="container-fluid">
+        <h1>Participant index</h1>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Pseudo</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Telephone</th>
+                            <th>Mail</th>
+                            <th>UrlPhotoProfil</th>
+                            <th>Roles</th>
+                            <th>Administrateur</th>
+                            <th>Actif</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in participants %}
+                        <tr>
+                            <td>{{ participant.id }}</td>
+                            <td>{{ participant.pseudo }}</td>
+                            <td>{{ participant.nom }}</td>
+                            <td>{{ participant.prenom }}</td>
+                            <td>{{ participant.telephone }}</td>
+                            <td>{{ participant.mail }}</td>
+                            <td>{{ participant.urlPhotoProfil }}</td>
+                            <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
+                            <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
+                            <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <a href="{{ path('app_participant_show', {'id': participant.id}) }}">show</a>
+                                <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Pseudo</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Mail</th>
-                <th>UrlPhotoProfil</th>
-                <th>MotDePasse</th>
-                <th>Roles</th>
-                <th>Administrateur</th>
-                <th>Actif</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for participant in participants %}
-            <tr>
-                <td>{{ participant.id }}</td>
-                <td>{{ participant.pseudo }}</td>
-                <td>{{ participant.nom }}</td>
-                <td>{{ participant.prenom }}</td>
-                <td>{{ participant.telephone }}</td>
-                <td>{{ participant.mail }}</td>
-                <td>{{ participant.urlPhotoProfil }}</td>
-                <td>{{ participant.motDePasse }}</td>
-                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
-                <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
-                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_participant_show', {'id': participant.id}) }}">show</a>
-                    <a href="{{ path('app_participant_edit', {'id': participant.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_participant_new') }}">Create new</a>
+                <a href="{{ path('app_participant_new') }}" class="btn btn-primary">Create new</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

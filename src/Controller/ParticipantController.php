@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Filesystem\Filesystem;
+
+
 
 
 #[Route('/participant')]
-class ParticipantController extends AbstractController
+class   ParticipantController extends AbstractController
 {
     #[Route('/', name: 'app_participant_index', methods: ['GET'])]
     public function index(ParticipantRepository $participantRepository): Response
@@ -39,17 +43,36 @@ class ParticipantController extends AbstractController
             return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('participant/new.html.twig', [
+        return $this->render('participant/new.html.twig', [
             'participant' => $participant,
-            'form' => $form,
+            $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_participant_show', methods: ['GET'])]
-    public function show(Participant $participant): Response
+    public function show(Participant                    $participant): Response
     {
         return $this->render('participant/show.html.twig', [
             'participant' => $participant,
+        ]);
+    }
+
+    #[Route('/{id}/supp', name: 'supprimer_image', methods: ['GET', 'POST'])]
+    public function removeImg(  ParticipantRepository         $participantRepository,
+                                Participant                   $participant,
+                                NotifierInterface             $notifier): Response
+    {
+        $ancienneImage = $participant->getUrlPhotoProfil();
+        $participant->setUrlPhotoProfil('img/participant/photo_profil_defaut.png');
+        if ($ancienneImage != 'img/participant/photo_profil_defaut.png'){
+            $filesystem = new Filesystem();
+            $filesystem->remove('path/to/file/file.pdf');$filesystem->remove($ancienneImage);
+        }
+        $participantRepository->save($participant, true);
+        $notifier->send(new Notification('L\'image a bien été mise à jour', ['browser']));
+
+        return $this->redirectToRoute('app_participant_edit', [
+            'id' => $participant->getId(),
         ]);
     }
 
@@ -69,17 +92,35 @@ class ParticipantController extends AbstractController
 
                     $participant->setMotDePasse(
                         $userPasswordHasher->hashPassword(
-                            $participant,
-                            $form->get('plainPassword')->getData()
+                            $participant, $form->get('plainPassword')->getData()
                         )
                     );
-                    $participantRepository->save($participant, true);
-                    $notifier->send(new Notification('La mise à jour de vos données a bien été effectuée', ['browser']));
+
+                    //Upload image
+
+                $uploadedFile = ($form['imageFile']->getData());
+                if($uploadedFile) {
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/img/participant';
+                    $newFilename = 'img/participant/'.$participant->getPseudo().'.'.$uploadedFile->guessExtension();
+                    $uploadedFile->move(
+                        $destination,
+                        $newFilename
+                    );
+                    $ancienneImage = $participant->getUrlPhotoProfil();
+                    $participant->setUrlPhotoProfil($newFilename);
+                    if ($ancienneImage != 'img/participant/photo_profil_defaut.png'){
+                        $filesystem = new Filesystem();
+                        $filesystem->remove('path/to/file/file.pdf');$filesystem->remove($ancienneImage);
+                    }
+                }
+
+                $participantRepository->save($participant, true);
+                $notifier->send(new Notification('La mise à jour de vos données a bien été effectuée', ['browser']));
                 return $this->redirectToRoute('app_participant_show', ['id' =>$participant->getId()], Response::HTTP_SEE_OTHER, compact("participant"));}
 
-        return $this->renderForm('participant/edit.html.twig', [
+        return $this->render('participant/edit.html.twig', [
             'participant' => $participant,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);}
 
         else{return $this->redirectToRoute('sortie_index');

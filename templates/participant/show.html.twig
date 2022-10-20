@@ -3,40 +3,54 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <h1>{{ participant.pseudo }}</h1>
-    <div class="photo"><img src="{{ asset(app.user.urlPhotoProfil) }}" alt="Photo de profil"></div>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Prenom :</th>
-                <td>{{ participant.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Nom :</th>
-                <td>{{ participant.nom }}</td>
-            </tr>
-            <tr>
-                <th>Téléphone :</th>
-                <td>{{ participant.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Email :</th>
-                <td>{{ participant.mail }}</td>
-            </tr>
-            <tr>
-                <th>Site de rattachement :</th>
-                <td>{{ participant.site.nomSite }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    {% if ( participant == app.user) %}
-        <a href="{{ path('sortie_index') }}"><button class="btn">Retour à l'accueil </button></a>
-        <button class="btn" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
-    {% endif %}
-    {% if  ( participant != app.user)%}
-        <a href=javascript:history.go(-1)><button class="btn">Retour </button></a>
-    {% endif %}
-
-
+    <div class="container-fluid">
+        <div class="row">
+            <h1>{{ participant.pseudo }}</h1>
+            <div class="col-4">
+                <div class="photo">
+                    {% if (app.user.urlPhotoProfil is defined) %}
+                        <img src="{{ asset(app.user.urlPhotoProfil) }}" class="img-fluid" alt="Photo de profil">
+                    {% endif %}
+                    {% if (app.user.urlPhotoProfil is not defined) %}
+                        <img src="img/participant/photo_profil_defaut.png" class="img-fluid" alt="Photo de profil">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-4">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Prenom :</th>
+                            <td>{{ participant.prenom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom :</th>
+                            <td>{{ participant.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Téléphone :</th>
+                            <td>{{ participant.telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email :</th>
+                            <td>{{ participant.mail }}</td>
+                        </tr>
+                        <tr>
+                            <th>Site de rattachement :</th>
+                            <td>{{ participant.site.nomSite }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% if ( participant == app.user) %}
+                    <div class="text-center">
+                        <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Retour à l'accueil </button></a>
+                        <button class="btn btn-primary" onclick="window.location.href = '{{ path('app_participant_edit', {'id': participant.id}) }}';">Modifier mon profil</button>
+                    </div>
+                {% endif %}
+                {% if  ( participant != app.user)%}
+                    <a href=javascript:history.go(-1)><button class="btn btn-primary">Retour </button></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -3,36 +3,38 @@
 {% block title %}Lieu{% endblock %}
 
 {% block body %}
-    <h1>Lieu</h1>
+    <div class="container-fluid text-center w-25">
+        <h1>Lieu</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ lieu.id }}</td>
-            </tr>
-            <tr>
-                <th>NomLieu</th>
-                <td>{{ lieu.nomLieu }}</td>
-            </tr>
-            <tr>
-                <th>Rue</th>
-                <td>{{ lieu.rue }}</td>
-            </tr>
-            <tr>
-                <th>Latitude</th>
-                <td>{{ lieu.latitude }}</td>
-            </tr>
-            <tr>
-                <th>Longitude</th>
-                <td>{{ lieu.longitude }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ lieu.id }}</td>
+                </tr>
+                <tr>
+                    <th>NomLieu</th>
+                    <td>{{ lieu.nomLieu }}</td>
+                </tr>
+                <tr>
+                    <th>Rue</th>
+                    <td>{{ lieu.rue }}</td>
+                </tr>
+                <tr>
+                    <th>Latitude</th>
+                    <td>{{ lieu.latitude }}</td>
+                </tr>
+                <tr>
+                    <th>Longitude</th>
+                    <td>{{ lieu.longitude }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_lieu_index') }}">back to list</a>
+        <a href="{{ path('app_lieu_index') }}" class="btn btn-primary">Retour vers la liste</a>
 
-    <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">edit</a>
+        <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}" class="btn btn-primary">Modifier</a>
 
-    {{ include('lieu/_delete_form.html.twig') }}
+        {{ include('lieu/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

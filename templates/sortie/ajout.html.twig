@@ -5,69 +5,87 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <h1>Création d'une sortie</h1>
 
-    <div class="ligne">
-        {{ form_label(form.nomSortie) }}
-        {{ form_widget(form.nomSortie) }}
-        {{ form_errors(form.nomSortie) }}
+            <div class="col-5 offset-1">
+                {{ form_start(form) }}
+
+                <div class="ligne">
+                    {{ form_label(form.nomSortie) }}
+                    {{ form_widget(form.nomSortie) }}
+                    {{ form_errors(form.nomSortie) }}
+                </div>
+
+                <div class="ligne">
+                    {{ form_label(form.dateDebut) }}
+                    {{ form_widget(form.dateDebut) }}
+                    {{ form_errors(form.dateDebut) }}
+                </div>
+
+                <div class="ligne">
+                    {{ form_label(form.dateCloture) }}
+                    {{ form_widget(form.dateCloture) }}
+                    {{ form_errors(form.dateCloture) }}
+                </div>
+
+                <div class="ligne">
+                    {{ form_label(form.nbInscriptionsMax) }}
+                    {{ form_widget(form.nbInscriptionsMax) }}
+                    {{ form_errors(form.nbInscriptionsMax) }}
+                </div>
+
+                <div class="ligne">
+                    {{ form_label(form.duree) }}
+                    {{ form_widget(form.duree) }} minutes
+                    {{ form_errors(form.duree) }}
+                </div>
+
+                <div class="ligne">
+                    {{ form_label(form.detailSortie) }}
+                    {{ form_widget(form.detailSortie) }}
+                    {{ form_errors(form.detailSortie) }}
+                </div>
+
+                <div class="ligne">
+                    <th>{{ form_label(form.imageFile) }}</th>
+                    <td>{{ form_row(form.imageFile) }}</td>
+                    <td>{{ form_errors(form.imageFile) }}</td>
+                </div>
+
+
+            </div>
+            <div class="col-5 offset-1">
+                <div class="ligne" id="selectLieu">
+                    {{ form_label(form.lieu) }}
+                    {{ form_widget(form.lieu) }}
+                    {{ form_errors(form.lieu) }}
+                </div>
+
+
+
+                <div id="detailsLieu">
+                    <p>Ville : </p>
+                    <p>Rue : </p>
+                    <p>Code Postal : </p>
+                    <p>Latitude : </p>
+                    <p>Longitude : </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-11 offset-1">
+                    {{ form_widget(form) }}
+
+                    <input type="submit" class="btn btn-primary" value="Ajouter">
+
+                    {{ form_end(form) }}
+
+                    <a href="{{ path('sortie_index') }}"><button class="btn btn-primary">Annuler</button></a>
+            </div>
+        </div>
     </div>
-
-    <div class="ligne">
-        {{ form_label(form.dateDebut) }}
-        {{ form_widget(form.dateDebut) }}
-        {{ form_errors(form.dateDebut) }}
-    </div>
-
-    <div class="ligne">
-        {{ form_label(form.dateCloture) }}
-        {{ form_widget(form.dateCloture) }}
-        {{ form_errors(form.dateCloture) }}
-    </div>
-
-    <div class="ligne">
-        {{ form_label(form.nbInscriptionsMax) }}
-        {{ form_widget(form.nbInscriptionsMax) }}
-        {{ form_errors(form.nbInscriptionsMax) }}
-    </div>
-
-    <div class="ligne">
-        {{ form_label(form.duree) }}
-        {{ form_widget(form.duree) }} minutes
-        {{ form_errors(form.duree) }}
-    </div>
-
-    <div class="ligne">
-        {{ form_label(form.detailSortie) }}
-        {{ form_widget(form.detailSortie) }}
-        {{ form_errors(form.detailSortie) }}
-    </div>
-
-    <div class="ligne" id="selectLieu">
-        {{ form_label(form.lieu) }}
-        {{ form_widget(form.lieu) }}
-        {{ form_errors(form.lieu) }}
-    </div>
-
-    {% for lieu in lieux %}
-        {{lieu}}
-    {% endfor %}
-
-    <div id="detailsLieu">
-        <p>Ville : </p>
-        <p>Rue : </p>
-        <p>Code Postal : </p>
-        <p>Latitude : </p>
-        <p>Longitude : </p>
-    </div>
-
-    {{ form_widget(form) }}
-
-    <input type="submit" value="Ajouter">
-
-    {{ form_end(form) }}
-
-    <a href="{{ path('sortie_index') }}"><button>Annuler</button></a>
 {% endblock %}
 
 {% block title %}

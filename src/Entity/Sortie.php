@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -16,18 +17,28 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Le nom de la sortie est obligatoire.')]
+    #[Assert\NotNull(message: 'Le nom de la sortie est obligatoire.')]
     private ?string $nomSortie = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThan('today', message:'La date de création d\'un évènement est à J+1.')]
+    #[Assert\NotBlank(message: 'La date de la sortie est obligatoire.')]
+    #[Assert\NotNull(message: 'La date de la sortie est obligatoire.')]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Expression('this.getDateCloture() < this.getDateDebut()', message: 'La date limite d\'inscription ne peut être après la date de début de la sortie')]
+    #[Assert\NotBlank(message: 'La date de clôture d\'inscriptions est obligatoire.')]
+    #[Assert\NotNull(message: 'La date de clôture d\'inscriptions est obligatoire.')]
     private ?\DateTimeInterface $dateCloture = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le nombre maximum de participants est obligatoire.')]
+    #[Assert\NotNull(message: 'Le nombre maximum de participants est obligatoire.')]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -54,6 +65,9 @@ class Sortie
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $raisonAbandon;
 
     public function getId(): ?int
     {
@@ -217,6 +231,18 @@ class Sortie
         if ($this->participants->removeElement($participants)) {
             $participants->removeInscription($this);
         }
+        return $this;
+    }
+
+    public function getRaisonAbandon(): ?string
+    {
+        return $this->raisonAbandon;
+    }
+
+    public function setRaisonAbandon(?string $raisonAbandon): self
+    {
+        $this->raisonAbandon = $raisonAbandon;
+
         return $this;
     }
 }
