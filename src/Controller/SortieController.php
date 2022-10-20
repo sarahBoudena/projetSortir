@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
@@ -12,6 +13,7 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -147,11 +149,29 @@ class   SortieController extends AbstractController
         ]);
     }
 
+
+    #[Route('/afficher/lieu/api/{id}',  name: 'afficher_details_lieu',
+                                        requirements: ['id' => '\d+'])]
+    public function rechercheSortieApi(LieuRepository $lieuRepository, Lieu $id)
+    {
+//        $lieu = $lieuRepository->findOneBy(array('id', $id));
+          $lieu = array(
+                    'id' => $id->getId(),
+                    'ville_id'=> $id->getVille(),
+                    'nom_lieu'=> $id->getNomLieu(),
+                    'rue'=>$id->getRue(),
+                    'latitute'=>$id->getLatitude(),
+                    'longitude'=>$id->getLongitude()
+                );
+
+        return $this->json($lieu, 200);
+    }
+
+
+
     #[Route('/details/{id}', name: 'details_index',
                              requirements: ['id' => '\d+']
     )]
-
-
     public function details(
         Sortie $id
     ): Response

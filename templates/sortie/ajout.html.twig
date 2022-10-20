@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block javascript %}
-
-{% endblock %}
-
 {% block body %}
     <div class="container-fluid">
         <div class="row">
@@ -60,18 +56,15 @@
 
             </div>
             <div class="col-5 offset-1">
-                <div class="ligne" id="selectLieu">
+                <div class="ligne" id="selectLieu" onchange="changement()">
                     {{ form_label(form.lieu) }}
                     {{ form_widget(form.lieu) }}
                     {{ form_errors(form.lieu) }}
+{#                    {{ form_row(form.lieu) }}#}
                 </div>
 
                 <div id="detailsLieu">
-                    <p>Ville : </p>
-                    <p>Rue : </p>
-                    <p>Code Postal : </p>
-                    <p>Latitude : </p>
-                    <p>Longitude : </p>
+
                 </div>
             </div>
         </div>
@@ -86,7 +79,74 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const VILLE = "Ville : ";
+        const RUE = "Rue : ";
+        const CP = "Code Postal : ";
+        const LATITUDE = "Latitude : ";
+        const LONGITUDE = "Longitude : ";
+
+        let selectLieu = document.getElementById('selectLieu');
+        let divDetailsLieu = document.getElementById('detailsLieu');
+
+       function changement() {
+                //Appel asynchrone à l'api
+            let id = document.getElementById("sortie_lieu").value;
+                fetch(
+                    "http://127.0.0.1:8000/afficher/lieu/api/"+id
+                )
+                    .then((reponse)=> reponse.json())
+                    .then((donnees) =>{
+
+                        let nouvelElement = document.createElement("p");
+                        console.log(donnees);
+                        console.log(selectLieu.value)
+                        nouvelElement.innerHTML = '<p>' + RUE + donnees.rue + '</p> <p>' + LATITUDE + donnees.latitude + '</p><p>' + LONGITUDE + donnees.longitude;
+                        divDetailsLieu.appendChild(nouvelElement);
+                        }
+                    );
+            }
+
+
+    </script>
 {% endblock %}
+
+
+{#{% block javascript %}#}
+{#    <script>#}
+{#        const VILLE = "Ville : ";#}
+{#        const RUE = "Rue : ";#}
+{#        const CP = "Code Postal : ";#}
+{#        const LATITUDE = "Latitude : ";#}
+{#        const LONGITUDE = "Longitude";#}
+
+{#        let selectLieu = document.getElementById('selectLieu');#}
+{#        let divDetailsLieu = document.getElementById('detailsLieu');#}
+
+{#        selectLieu.addEventListener("change", ()=>{#}
+{#        //Appel asynchrone à l'api#}
+{#        fetch(#}
+{#            "http://127.0.0.1:8000/afficher_details_lieu"#}
+{#        )#}
+{#            .then((reponse)=> reponse.json())#}
+{#            .then((donnees) =>{#}
+{#                    for (const chaqueLieu of donnees) {#}
+{#                        if (chaqueLieu.id == selectLieu.value){#}
+{#                        let nouvelElement = document.createElement("p");#}
+{#                        nouvelElement.innerHTML = '<p>' + RUE + chaqueLieu.rue + '</p> <p>' + LATITUDE + chaqueLieu.latitude + '</p><p>' + LONGITUDE + chaqueLieu.longitude;#}
+{#                        divDetailsLieu.appendChild(nouvelElement);#}
+{#                        }#}
+{#                    }#}
+{#                }#}
+{#            );#}
+{#    }#}
+{#        );#}
+
+
+{#    </script>#}
+{#{% endblock %}#}
+
 
 {% block title %}
     Créer une sortie
