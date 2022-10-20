@@ -44,7 +44,7 @@
                     {% if (app.user.administrateur) %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_participant_new') }}">Créer Utilisateur</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_participant_index') }}">Liste des inscrits</a></li>
-                        <li class="nav-item"><a class="nav-link" href="app_ville_new">Ajouter ville</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_ville_new') }}">Ajouter ville</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ path('sortie_index') }}">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ path('app_participant_show', {'id': app.user.id }) }}">Mon profil</a></li>
@@ -73,11 +73,9 @@
 {% endif %}
 
 
-{% for label, messages in app.flashes %}
+{%  for label, messages in app.flashes%}
     {% for message in messages %}
-        <div class="flash-{{ label }}">
-            {{ message }}
-        </div>
+        <div id="alert" class="alert-{{ label }}">{{ message }}</div>
     {% endfor %}
 {% endfor %}
 
