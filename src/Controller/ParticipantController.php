@@ -10,6 +10,7 @@ use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Notifier\Notification\Notification;
@@ -23,13 +24,12 @@ use Symfony\Component\Filesystem\Filesystem;
 class   ParticipantController extends AbstractController
 {
     #[Route('/verif', name: 'verif_actif', methods: ['GET'])]
-    public function verif(ParticipantRepository         $participantRepository,
-                          NotifierInterface              $notifier): Response
+    public function verif(SessionInterface              $session): Response
     {
         if($this->getUser()->isActif()) {
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);}
         else{
-            $this->addFlash('echec', "Votre compte a été désactivé. Veuillez vous rapprocher d'un administrateur : admin@sortir.com");
+            $session->set('message_deco', "Pourquoi tu fais ça ? Tu es déjà connecté...");
             return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);}
     }
 

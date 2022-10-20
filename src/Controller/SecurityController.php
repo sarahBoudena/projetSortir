@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             $this->addFlash('echec', "Pourquoi tu fais ça ? Tu es déjà connecté...");
+             $this->addFlash('message', "Pourquoi tu fais ça ? Tu es déjà connecté...");
              return $this->redirectToRoute('sortie_index');
          }
 
