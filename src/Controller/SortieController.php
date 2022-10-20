@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -86,21 +87,29 @@ class   SortieController extends AbstractController
 
     #[Route('/ajout', name: 'sortie_ajout')]
     public function ajout(
+        LieuRepository $lieuRepository,
         EtatRepository $etatRepository,
         ParticipantRepository $participantRepository,
         EntityManagerInterface $entityManager,
         Request $request,
     ): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $lieux = $lieuRepository->findAll();
+
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            if($request->request->get('boutonPublier'))
-            $etat = $etatRepository->findOneBy(array('id'=>1));
-            if (!$this->getUser()) {
-                return $this->redirectToRoute('app_login');
+            $publie =$request->request->get('boutonPublier');
+            if($publie) {
+                $etat = $etatRepository->findOneBy(array('id' => 2));
+            }else{
+                $etat = $etatRepository->findOneBy(array('id' => 1));
             }
             $pseudo = $this->getUser()->getUserIdentifier();
             $organisateur = $participantRepository->findOneBy(array('pseudo'=>$pseudo));
@@ -129,13 +138,12 @@ class   SortieController extends AbstractController
             }
             $sortie->setUrlPhoto($newFilename);*/
 
-
-
             $entityManager->flush();
             return $this->redirectToRoute('sortie_index', array('sortieModifiee' => $sortie));
         }
         return $this->render('sortie/ajout.html.twig', [
-            "form"=>$form->createView()
+            "form"=>$form->createView(),
+            "lieux"=>$lieux
         ]);
     }
 
