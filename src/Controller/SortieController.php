@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -86,20 +89,29 @@ class   SortieController extends AbstractController
 
     #[Route('/ajout', name: 'sortie_ajout')]
     public function ajout(
+        LieuRepository $lieuRepository,
         EtatRepository $etatRepository,
         ParticipantRepository $participantRepository,
         EntityManagerInterface $entityManager,
         Request $request,
     ): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $lieux = $lieuRepository->findAll();
+
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $etat = $etatRepository->findOneBy(array('id'=>1));
-            if (!$this->getUser()) {
-                return $this->redirectToRoute('app_login');
+            $publie =$request->request->get('boutonPublier');
+            if($publie) {
+                $etat = $etatRepository->findOneBy(array('id' => 2));
+            }else{
+                $etat = $etatRepository->findOneBy(array('id' => 1));
             }
             $pseudo = $this->getUser()->getUserIdentifier();
             $organisateur = $participantRepository->findOneBy(array('pseudo'=>$pseudo));
@@ -128,21 +140,38 @@ class   SortieController extends AbstractController
             }
             $sortie->setUrlPhoto($newFilename);*/
 
-
-
             $entityManager->flush();
             return $this->redirectToRoute('sortie_index', array('sortieModifiee' => $sortie));
         }
         return $this->render('sortie/ajout.html.twig', [
-            "form"=>$form->createView()
+            "form"=>$form->createView(),
+            "lieux"=>$lieux
         ]);
     }
+
+
+    #[Route('/afficher/lieu/api/{id}',  name: 'afficher_details_lieu',
+                                        requirements: ['id' => '\d+'])]
+    public function rechercheSortieApi(LieuRepository $lieuRepository, Lieu $id)
+    {
+//        $lieu = $lieuRepository->findOneBy(array('id', $id));
+          $lieu = array(
+                    'id' => $id->getId(),
+                    'ville_id'=> $id->getVille(),
+                    'nom_lieu'=> $id->getNomLieu(),
+                    'rue'=>$id->getRue(),
+                    'lat'=>$id->getLatitude(),
+                    'lon'=>$id->getLongitude()
+                );
+
+        return $this->json($lieu, 200);
+    }
+
+
 
     #[Route('/details/{id}', name: 'details_index',
                              requirements: ['id' => '\d+']
     )]
-
-
     public function details(
         Sortie $id
     ): Response
