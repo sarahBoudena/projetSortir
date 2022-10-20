@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -45,7 +46,8 @@ class SortieType extends AbstractType
                 'expanded'=>false,
                 'multiple'=>false
             ])
-//            ->add('etat')
+            ->add('published', CheckboxType::class, [
+                'label_attr' => ['class' => 'switch-custom'],]);
         ;
     }
 
