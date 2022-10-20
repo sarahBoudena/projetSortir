@@ -23,30 +23,94 @@ use Symfony\Component\Filesystem\Filesystem;
 class   ParticipantController extends AbstractController
 {
     #[Route('/', name: 'app_participant_index', methods: ['GET'])]
-    public function index(ParticipantRepository $participantRepository): Response
+    public function index(ParticipantRepository         $participantRepository,
+                          NotifierInterface              $notifier): Response
     {
-        return $this->render('participant/index.html.twig', [
-            'participants' => $participantRepository->findAll(),
-        ]);
+        if($this->getUser()->isAdministrateur()) {
+            return $this->render('participant/index.html.twig', [
+                'participants' => $participantRepository->findAll(),
+            ]);
+        }
+        $notifier->send(new Notification('Petit coquinou, tu n\est pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
+        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/admin/{id}', name: 'app_activer_utilisateur', methods: ['GET'])]
+    public function admin(ParticipantRepository       $participantRepository,
+                          NotifierInterface           $notifier,
+                          Participant                 $participant): Response
+    {
+        if($this->getUser()->isAdministrateur()) {
+            if ($participant->isActif()){
+                $participant->setActif(false);
+                $notifier->send(new Notification($participant->getPseudo().'est désactivé', ['browser']));
+            }
+            else{
+                $participant->setActif(true);
+                $notifier->send(new Notification($participant->getPseudo().'est desormais actif', ['browser']));
+                }
+            $participantRepository->save($participant, true);
+            return $this->render('participant/index.html.twig', [
+                'participants' => $participantRepository->findAll(),
+            ]);
+        }
+        $notifier->send(new Notification('Petit coquinou, tu n\'est pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
+        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/activer/{id}', name: 'app_affecter_role_admin', methods: ['GET'])]
+    public function activer(ParticipantRepository       $participantRepository,
+                            NotifierInterface           $notifier,
+                            Participant                 $participant): Response
+    {
+        if($this->getUser()->isAdministrateur()) {
+            if ($participant->isAdministrateur()){
+                $participant->setAdministrateur(false);
+                $notifier->send(new Notification($participant->getPseudo().'n\'est plus administrateur', ['browser']));
+            }
+            else{
+                $participant->setAdministrateur(true);
+                $notifier->send(new Notification($participant->getPseudo().'est desormais administrateur', ['browser']));
+            }
+            $participantRepository->save($participant, true);
+            return $this->render('participant/index.html.twig', [
+                'participants' => $participantRepository->findAll(),
+            ]);
+        }
+        $notifier->send(new Notification('Petit coquinou, tu n\'est pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
+        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ParticipantRepository $participantRepository): Response
+    public function new(Request                     $request,
+                        ParticipantRepository       $participantRepository,
+                        NotifierInterface           $notifier
+
+    ): Response
     {
-        $participant = new Participant();
-        $form = $this->createForm(ParticipantType::class, $participant);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $participantRepository->save($participant, true);
+        if($this->getUser()->isAdministrateur())
+            {
+                $participant = new Participant();
+                $form = $this->createForm(ParticipantType::class, $participant);
+                $participant->setUrlPhotoProfil('img/participant/photo_profil_defaut.png');
+                $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
-        }
 
-        return $this->render('participant/new.html.twig', [
-            'participant' => $participant,
-            $form->createView(),
-        ]);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $participantRepository->save($participant, true);
+                    $notifier->send(new Notification('Le nouvel utilisateur a bien été inscrit', ['browser']));
+                    return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
+                }
+
+                return $this->render('participant/new.html.twig', [
+                    'participant' => $participant,
+                    'form' => $form->createView(),
+                ]);
+            }
+        $notifier->send(new Notification('Petit coquinou, tu n\'est pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
+        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+            
+
     }
 
     #[Route('/{id}', name: 'app_participant_show', methods: ['GET'])]
