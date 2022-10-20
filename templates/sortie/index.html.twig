@@ -13,34 +13,34 @@
             {# Sélection du site #}
             <div class="col-5 ">
                 <form action="{{ path('sortie_index') }}" method="post">
-                <label for="selectSite">Site : </label>
-                <select class="form-select" name="selectSite" id="selectSite">
-                    {% for site in sites %}
-                        <option value="{{ site.id }}"
-                        {% if(site.id == app.user.site.id) %}
-                            selected
-                        {% endif %}
-                        >{{ site.nomSite }}</option>
-                    {% endfor %}
-                </select>
+                    <label for="selectSite">Site : </label>
+                    <select class="form-select" name="selectSite" id="selectSite">
+                        {% for site in sites %}
+                            <option value="{{ site.id }}"
+                            {% if(site.id == app.user.site.id) %}
+                                selected
+                            {% endif %}
+                            >{{ site.nomSite }}</option>
+                        {% endfor %}
+                    </select>
 
-                {# Champs de recherche #}
-                <div class="ligne">
-                    <label for="inputRecherche">Le nom de la sortie contient : </label>
-                    <input type="text" id="inputRecherche" name="inputRecherche" placeholder="Recherche" class="">
-                </div>
+                    {# Champs de recherche #}
+                    <div class="ligne">
+                        <label for="inputRecherche">Le nom de la sortie contient : </label>
+                        <input type="text" id="inputRecherche" name="inputRecherche" placeholder="Recherche" class="">
+                    </div>
 
-                {# Sélection d'une intervalle de dates #}
-                <label for="inputDateDebut">Entre</label>
-                <input type="date" id="inputDateDebut" name="inputDateDebut" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                </svg>
-                <label for="inputDateFin">et</label>
-                <input type="date" id="inputDateFin" name="inputDateFin" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                </svg>
+                    {# Sélection d'une intervalle de dates #}
+                    <label for="inputDateDebut">Entre</label>
+                    <input type="date" id="inputDateDebut" name="inputDateDebut" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
+                    <label for="inputDateFin">et</label>
+                    <input type="date" id="inputDateFin" name="inputDateFin" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
             </div>
 
             {# Sélection des options de recherches checkbox #}
@@ -71,9 +71,9 @@
         <hr>
     
         {# Affichage de la liste des sorties #}
-        <div class="row">
-            <div class="col-12">
-                <table class="text-center table table-bordered table-striped border-dark">
+        <div class="row ">
+            <div class="col-12 cadre-table-scroll">
+                <table class="text-center table table-bordered table-striped border-dark table-scroll">
                     <thead>
                     <tr>
                         <th>Nom de la sortie</th>
@@ -173,7 +173,11 @@
                                     {% if inscrit %}
                                         X
                                     {% endif %}
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
+                                        {% if (not inscrit) %}
+                                            <br>
+
+                                        {% endif %}
+                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                         </span>
                                     {% endif %}
                                 </td>
@@ -222,8 +226,8 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
             </div>
+            <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
         </div>
     </div>
 {% endblock %}

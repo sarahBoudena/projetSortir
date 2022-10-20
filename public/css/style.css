@@ -12,3 +12,23 @@ html, body {
     max-width: 100%;
     max-height: 100%;
 }
+.cadre-table-scroll {
+    display: inline-block;
+    height: 20em;
+    overflow-y: scroll;
+}
+.table-scroll thead th {
+    position: sticky;
+    border: solid 1px;
+    border-top: 1px solid;
+    top: 0;
+    background: #a4dbef;
+
+}
+.table-scroll {
+    border-collapse: separate;
+    border-spacing: 0px;
+    empty-cells: hide;
+    text-align: left;
+    background-color: #EFEFEF;
+}
