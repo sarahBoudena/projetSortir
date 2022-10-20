@@ -160,8 +160,8 @@ class   SortieController extends AbstractController
                     'ville_id'=> $id->getVille(),
                     'nom_lieu'=> $id->getNomLieu(),
                     'rue'=>$id->getRue(),
-                    'latitute'=>$id->getLatitude(),
-                    'longitude'=>$id->getLongitude()
+                    'lat'=>$id->getLatitude(),
+                    'lon'=>$id->getLongitude()
                 );
 
         return $this->json($lieu, 200);

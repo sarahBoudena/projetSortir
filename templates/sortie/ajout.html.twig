@@ -98,11 +98,9 @@
                 )
                     .then((reponse)=> reponse.json())
                     .then((donnees) =>{
-
+                        divDetailsLieu.innerText='';
                         let nouvelElement = document.createElement("p");
-                        console.log(donnees);
-                        console.log(selectLieu.value)
-                        nouvelElement.innerHTML = '<p>' + RUE + donnees.rue + '</p> <p>' + LATITUDE + donnees.latitude + '</p><p>' + LONGITUDE + donnees.longitude;
+                        nouvelElement.innerHTML = '<p>' + RUE + donnees.rue + '</p> <p>' + LATITUDE + donnees.lat + '</p><p>' + LONGITUDE + donnees.lon;
                         divDetailsLieu.appendChild(nouvelElement);
                         }
                     );
