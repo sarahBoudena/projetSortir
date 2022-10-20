@@ -26,8 +26,8 @@
                     <td>{{ lieu.latitude }}</td>
                     <td>{{ lieu.longitude }}</td>
                     <td>
-                        <a href="{{ path('app_lieu_show', {'id': lieu.id}) }}">show</a>
-                        <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">edit</a>
+                        <a href="{{ path('app_lieu_show', {'id': lieu.id}) }}">Détails</a>
+                        <a href="{{ path('app_lieu_edit', {'id': lieu.id}) }}">Modifier</a>
                     </td>
                 </tr>
             {% else %}
@@ -38,6 +38,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_lieu_new') }}" class="btn btn-primary">Create new</a>
+        <a href="{{ path('app_lieu_new') }}" class="btn btn-primary">Nouveau lieu</a>
     </div>
 {% endblock %}

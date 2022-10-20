@@ -1,4 +1,22 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+
+<div class="row">
+
+    <div class="">
+        <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.nomVille) }}</th>
+                    <td>{{ form_widget(form.nomVille) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.codePostal) }}</th>
+                    <td>{{ form_widget(form.codePostal) }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{{ path('app_ville_index') }}" class="btn btn-primary">Retour vers la liste</a>
+        <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+    </div>
+</div>
 {{ form_end(form) }}

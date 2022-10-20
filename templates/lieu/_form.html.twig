@@ -1,7 +1,34 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+<div class="text-center">
+    <table>
+        <tbody>
+            <tr>
+                <th>{{ form_label(form.nomLieu) }}</th>
+                <td>{{ form_widget(form.nomLieu) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.rue) }}</th>
+                <td>{{ form_widget(form.rue) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.latitude) }}</th>
+                <td>{{ form_widget(form.latitude) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.longitude) }}</th>
+                <td>{{ form_widget(form.longitude) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.ville) }}</th>
+                <td>{{ form_widget(form.ville) }}</td>
+            </tr>
 
+        </tbody>
+    </table>
+</div>
     <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
     <a href="{{ path('app_lieu_index') }}" class="btn btn-primary">Retour vers la liste</a>
-
 {{ form_end(form) }}
+
+
+
