@@ -29,7 +29,7 @@ class   ParticipantController extends AbstractController
         if($this->getUser()->isActif()) {
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);}
         else{
-            $session->set('message_deco', "Pourquoi tu fais ça ? Tu es déjà connecté...");
+            $this->addFlash('danger', "Ton compte a été désactive, contacte l'administrateur pour en savoir plus : admin@sortir.com...");
             return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);}
     }
 
@@ -38,12 +38,13 @@ class   ParticipantController extends AbstractController
     public function index(ParticipantRepository         $participantRepository,
                           NotifierInterface              $notifier): Response
     {
-        if($this->getUser()->isAdministrateur()) {
+        if($this->getUser() instanceof Participant &&
+            $this->getUser()->isAdministrateur()) {
             return $this->render('participant/index.html.twig', [
                 'participants' => $participantRepository->findAll(),
             ]);
         }
-        $notifier->send(new Notification('Petit coquinou, tu n\est pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
+        $notifier->send(new Notification('Petit coquinou, tu n\es pas administrateur, tu ne peux donc pas incrire de nouveaux utilisateurs', ['browser']));
         return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
