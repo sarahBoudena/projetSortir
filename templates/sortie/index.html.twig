@@ -71,9 +71,9 @@
         <hr>
     
         {# Affichage de la liste des sorties #}
-        <div class="row">
-            <div class="col-12">
-                <table class="text-center table table-bordered table-striped border-dark">
+        <div class="row ">
+            <div class="col-12 cadre-table-scroll">
+                <table class="text-center table table-bordered table-striped border-dark table-scroll">
                     <thead>
                     <tr>
                         <th>Nom de la sortie</th>
@@ -222,8 +222,8 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
             </div>
+            <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
         </div>
     </div>
 {% endblock %}
