@@ -44,7 +44,7 @@
             </div>
 
             {# Sélection des options de recherches checkbox #}
-            <div class="col-5 ">
+            <div class="col-5">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="coche" id="checkBoxOrganisateur" name="checkBoxOrganisateur">
                     <label class="form-check-label" for="checkBoxOrganisateur">Sorties dont je suis l'organisateur/trice</label>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="submit" formaction="" class="btn btn-primary btn-lg" value="boutonRechercher" id="boutonRechercher" name="boutonRechercher">Rechercher</button>
+                <button type="submit" formaction="" class="btn btn-primary" value="boutonRechercher" id="boutonRechercher" name="boutonRechercher">Rechercher</button>
             </div>
             </form>
         </div>
@@ -78,12 +78,13 @@
                     <tr>
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
-                        <th>Clôture</th>
-                        <th>Inscrits/places</th>
-                        <th>Etat</th>
-                        <th>Inscrit</th>
-                        <th>Organisateur</th>
-                        <th>Actions</th>
+                        <th id="masque-lieu">Lieu</th>
+                        <th id="masque">Clôture</th>
+                        <th id="masque">Inscrits/places</th>
+                        <th id="masque">Etat</th>
+                        <th id="masque">Inscrit</th>
+                        <th id="masque">Organisateur</th>
+                        <th id="masque">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,7 +119,17 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque-lieu">
+                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
+                                    <span style="color:red; font-weight: bold;">
+                                    {% endif %}
+                                        {{ sortie.lieu.nomLieu }}
+                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td id="masque">
                                     {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
                                     {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                     <span style="color:red; font-weight: bold;">
@@ -128,7 +139,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque">
                                     {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
                                     {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                     <span style="color:red; font-weight: bold;">
@@ -143,7 +154,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque">
                                     {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
                                     {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                     <span style="color:red; font-weight: bold;">
@@ -153,7 +164,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque">
                                     {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
                                     {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                     <span style="color:red; font-weight: bold;">
@@ -166,7 +177,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque">
                                     {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
                                     {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
                                         <span style="color:red; font-weight: bold;">
@@ -176,7 +187,7 @@
                                         </span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td id="masque">
                                     {# Gestions des actions utilisateur en fonction des différents statuts #}
                                     {% if (sortie.etat.id != 6 or sortie.etat.id != 7) %}
                                         {# Afficher les détails #}
@@ -211,7 +222,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary">Créer une sortie</button></a>
+                <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
             </div>
         </div>
     </div>
