@@ -40,14 +40,26 @@
         </nav>
     </header>
 </div>
+
+
+
 {% block body %}{% endblock %}
-{%  for label, messages in app.flashes%}
+{%  for messages in app.flashes%}
     {% for message in messages %}
         <script>
             alert( '{{ message }}')
         </script>
     {% endfor %}
 {% endfor %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
 <footer>
 
 </footer>

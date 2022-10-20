@@ -22,6 +22,18 @@ use Symfony\Component\Filesystem\Filesystem;
 #[Route('/participant')]
 class   ParticipantController extends AbstractController
 {
+    #[Route('/verif', name: 'verif_actif', methods: ['GET'])]
+    public function verif(ParticipantRepository         $participantRepository,
+                          NotifierInterface              $notifier): Response
+    {
+        if($this->getUser()->isActif()) {
+            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);}
+        else{
+            $this->addFlash('echec', "Votre compte a été désactivé. Veuillez vous rapprocher d'un administrateur : admin@sortir.com");
+            return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);}
+    }
+
+
     #[Route('/', name: 'app_participant_index', methods: ['GET'])]
     public function index(ParticipantRepository         $participantRepository,
                           NotifierInterface              $notifier): Response

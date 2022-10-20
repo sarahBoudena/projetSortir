@@ -34,10 +34,10 @@
                                 {% endif %}
                             </td>
                             <td>{% if ( participant.actif) %}
-                                    <a href="{{ path('app_activer_utilisateur', {'id': participant.id}) }}"> Activer cet utilisateur</a>:
+                                    <a href="{{ path('app_activer_utilisateur', {'id': participant.id}) }}"> Désactiver cet utilisateur</a>:
                                 {% endif %}
                                 {% if ( not participant.actif) %}
-                                    <a href="{{ path('app_activer_utilisateur', {'id': participant.id}) }}">Désactiver cet utilisateur</a>
+                                    <a href="{{ path('app_activer_utilisateur', {'id': participant.id}) }}"> Activer cet utilisateur</a>
                                 {% endif %}
 
                             <td>
