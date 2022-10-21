@@ -15,8 +15,9 @@
                 </tr>
             </tbody>
         </table>
-        <a href="{{ path('app_ville_index') }}" class="btn btn-primary">Retour vers la liste</a>
+        <br>
         <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+        <a href="{{ path('sortie_index') }}" class="btn btn-primary">Retour</a>
     </div>
 </div>
 {{ form_end(form) }}
