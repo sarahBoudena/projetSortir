@@ -154,7 +154,6 @@ class   SortieController extends AbstractController
                                         requirements: ['id' => '\d+'])]
     public function rechercheSortieApi(LieuRepository $lieuRepository, Lieu $id)
     {
-//        $lieu = $lieuRepository->findOneBy(array('id', $id));
           $lieu = array(
                     'id' => $id->getId(),
                     'ville_id'=> $id->getVille(),
