@@ -82,7 +82,7 @@
                     {% for participant in sortie.participants %}
                         <tr>
                             <td>{{ participant.pseudo }}</td>
-                            <td><a class="nav-link" href="{{ path('app_participant_show', {'id': participant.id }) }}">{{ participant.nom }}</a></td>
+                            <td><a class="nav-link" href="{{ path('app_participant_show', {'id': participant.id }) }}">{{ participant.prenom }} {{ participant.nom }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
