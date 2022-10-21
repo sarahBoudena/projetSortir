@@ -203,7 +203,10 @@ class   ParticipantController extends AbstractController
             'form' => $form->createView(),
         ]);}
 
-        else{return $this->redirectToRoute('sortie_index');
+        else{
+            $notifier->send(new Notification("Interdit ! Petit coquinou va !", ['browser']));
+            return $this->redirectToRoute('sortie_index');
+
 
         }
 
