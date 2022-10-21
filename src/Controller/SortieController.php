@@ -120,7 +120,7 @@ class   SortieController extends AbstractController
             $sortie->setEtat($etat);
             $entityManager->persist($sortie);
 
-            /*$uploadedFile = ($form['imageFile']->getData());
+            $uploadedFile = ($form['imageFile']->getData());
             if($uploadedFile) {
                 $destination = $this->getParameter('kernel.project_dir') . '/public/img/sorties';
                 $newFilename = 'img/sorties/'.$sortie->getNomSortie().'.'.$uploadedFile->guessExtension();
@@ -130,15 +130,15 @@ class   SortieController extends AbstractController
                 );
                 $ancienneImage = $sortie->getUrlPhoto();
 
-                if ($ancienneImage != 'img/sorties/sortie_lieu_defaut.png'){
+                /*if ($ancienneImage != 'img/sorties/sortie_lieu_defaut.png'){
                     $filesystem = new Filesystem();
                     $filesystem->remove('path/to/file/file.pdf');$filesystem->remove($ancienneImage);
-                }
+                }*/
             }
             if(!$uploadedFile && $sortie->getUrlPhoto()==null){
                 $newFilename="img/sorties/sortie_lieu_defaut.png";
             }
-            $sortie->setUrlPhoto($newFilename);*/
+            $sortie->setUrlPhoto($newFilename);
 
             $entityManager->flush();
             return $this->redirectToRoute('sortie_index', array('sortieModifiee' => $sortie));
