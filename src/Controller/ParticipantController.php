@@ -29,7 +29,7 @@ class   ParticipantController extends AbstractController
         if($this->getUser()->isActif()) {
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);}
         else{
-            $this->addFlash('danger', "Ton compte a été désactive, contacte l'administrateur pour en savoir plus : admin@sortir.com...");
+            $this->addFlash('danger', "Ton compte a été désactivé, rapproche toi de l'administrateur pour en savoir plus : admin@sortir.com...");
             return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);}
     }
 
@@ -96,6 +96,7 @@ class   ParticipantController extends AbstractController
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
     public function new(Request                     $request,
                         ParticipantRepository       $participantRepository,
+                        UserPasswordHasherInterface    $userPasswordHasher,
                         NotifierInterface           $notifier
 
     ): Response
@@ -110,6 +111,8 @@ class   ParticipantController extends AbstractController
 
 
                 if ($form->isSubmitted() && $form->isValid()) {
+                    $participant->setAdministrateur(0);
+                    $participant->setActif(1);
                     $participantRepository->save($participant, true);
                     $notifier->send(new Notification('Le nouvel utilisateur a bien été inscrit', ['browser']));
                     return $this->redirectToRoute('app_participant_index', [], Response::HTTP_SEE_OTHER);
