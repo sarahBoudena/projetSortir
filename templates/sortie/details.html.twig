@@ -5,27 +5,27 @@
         <h1 class="h3 mb-3 font-weight-normal">Afficher une sortie</h1>
         <div class="row">
             <div class="col-sm-5 offset-1">
-                <div>
+                <div class="ligne">
                     <label for="inputNom" class="form-label fw-semibold"> Nom de la sortie: </label>
                     {{ sortie.nomSortie }}
                 </div>
-                <div>
+                <div class="ligne">
                     <label for="inputDateEtHeure" class="form-label fw-semibold"> Date et Heure de la sortie: </label>
                     {{ sortie.dateDebut | date('d/m/Y H:i:s', 'Europe/Paris') }}
                 </div>
-                <div>
+                <div class="ligne">
                     <label for="inputDateLimite" class="form-label fw-semibold"> Date lime de l'inscription: </label>
                     {{ sortie.dateCloture | date('d/m/Y H:i:s', 'Europe/Paris') }}
                 </div>
-                <div>
+                <div class="ligne">
                     <label for="NbPlace" class="form-label fw-semibold"> Nombre de places: </label>
                     {{ sortie.nbInscriptionsMax }}
                 </div>
-                <div>
+                <div class="ligne">
                     <label for="inputDuree" class="form-label fw-semibold">Durée (min): </label>
                     {{ sortie.duree }}
                 </div>
-                <div>
+                <div class="ligne">
                     {% if (sortie.etat.id != 7) %}
                         <label for="inputDescriptionEtInfo" class="form-label fw-semibold">Description et infos: </label>
                     {{ sortie.detailSortie }}
