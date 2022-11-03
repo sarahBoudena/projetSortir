@@ -1,3 +1,86 @@
+body{
+    background-color: #154d59;
+    color: #DDDDDD;
+}
+
+.navbar{
+    background-color: #154d59;
+    border-bottom: white solid 1px;
+}
+
+/*Changement couleur checkbox*/
+.form-check-input:checked{
+    background-color: #ffca3a !important;
+    border: #154d59 1px solid;
+}
+.form-check-input:checked:focus{
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+.form-check-input:focus{
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+.form-check-input:active{
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+
+/*Changement couleur select*/
+.form-select:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+
+/*Changement couleur dates*/
+.input-date:focus{
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+
+/*Changement couleur champs recherche*/
+#inputRecherche:active{
+    box-shadow: 0 0 0 1px #fff, 0 0 0 0.1rem rgb(255, 202, 58);
+    border: #154d59 1px solid;
+}
+
+
+a{
+    color: #DDDDDD;
+}
+
+a:hover{
+    color: #ffca3a;
+}
+
+.card-body li{
+    list-style: none;
+}
+
+.card{
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+}
+
+.nav-link{
+    color: white;
+}
+
+.nav-link:hover{
+    color: #ffca3a;
+}
+
+
+
+.card-img-top {
+    height: 40rem;
+    object-fit: cover;
+}
+
+
+
 h3 {
     text-align: right;
     padding-right: 20px;
@@ -26,8 +109,7 @@ html, body {
     border: solid 1px;
     border-top: 1px solid;
     top: 0;
-    background: #a4dbef;
-
+    background: #ffca3a;
 }
 
 .table-scroll {
@@ -35,5 +117,5 @@ html, body {
     border-spacing: 0px;
     empty-cells: hide;
     text-align: left;
-    background-color: #EFEFEF;
+    background-color: #adabab;
 }

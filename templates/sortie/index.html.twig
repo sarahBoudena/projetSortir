@@ -16,7 +16,7 @@
                     <label for="selectSite">Site : </label>
                     <select class="form-select" name="selectSite" id="selectSite">
                         {% for site in sites %}
-                            <option value="{{ site.id }}"
+                            <option class="option-select" value="{{ site.id }}"
                             {% if(site.id == app.user.site.id) %}
                                 selected
                             {% endif %}
@@ -32,12 +32,12 @@
 
                     {# Sélection d'une intervalle de dates #}
                     <label for="inputDateDebut">Entre</label>
-                    <input type="date" id="inputDateDebut" name="inputDateDebut" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
+                    <input type="date" class="input-date" id="inputDateDebut" name="inputDateDebut" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                     </svg>
                     <label for="inputDateFin">et</label>
-                    <input type="date" id="inputDateFin" name="inputDateFin" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
+                    <input type="date" class="input-date" id="inputDateFin" name="inputDateFin" value="{{'now'|date('d/m/Y H:i:s', 'Europe/Paris')}}" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                     </svg>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <button type="submit" formaction="" class="btn btn-primary" value="boutonRechercher" id="boutonRechercher" name="boutonRechercher">Rechercher</button>
+                <button type="submit" formaction="" class="btn btn-warning" value="boutonRechercher" id="boutonRechercher" name="boutonRechercher">Rechercher</button>
             </div>
             </form>
         </div>
@@ -71,163 +71,205 @@
         <hr>
     
         {# Affichage de la liste des sorties #}
-        <div class="row ">
-            <div class="col-12 cadre-table-scroll">
-                <table class="text-center table table-bordered table-striped border-dark table-scroll">
-                    <thead>
-                    <tr>
-                        <th>Nom de la sortie</th>
-                        <th>Date de la sortie</th>
-                        <th id="masque-lieu">Lieu</th>
-                        <th id="masque">Clôture</th>
-                        <th id="masque">Inscrits/places</th>
-                        <th id="masque">Etat</th>
-                        <th id="masque">Inscrit</th>
-                        <th id="masque">Organisateur</th>
-                        <th id="masque">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for sortie in sorties %}
+        <div class="row">
+            {% for sortie in sorties %}
+                {# Gestion de la variable inscrit #}
+                {% set inscrit = false %}
+                {% for inscriptionSortie in app.user.inscription %}
+                    {% if inscriptionSortie == sortie %}
+                        {% set inscrit = true %}
+                    {% endif %}
+                {% endfor %}
+                <div class="card col-3" style="width: 20rem; height: 45rem;">
 
-                        {# Gestion de la variable inscrit #}
-                        {% set inscrit = false %}
-                        {% for inscriptionSortie in app.user.inscription %}
-                            {% if inscriptionSortie == sortie %}
-                                {% set inscrit = true %}
-                            {% endif %}
-                        {% endfor %}
-                            {# Ligne du tableau #}
-                            <tr>
-                                <td>
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                         <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {{ sortie.nomSortie }}
-                                     {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}}
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque-lieu">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                        {{ sortie.lieu.nomLieu }}
-                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}}
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {# Gestion du compteur d'inscriptions #}
-                                    {% set nbInscrit = 0 %}
-                                    {% for participant in sortie.participants %}
-                                        {% set nbInscrit = nbInscrit + 1 %}
-                                    {% endfor %}
-                                    {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {{ sortie.etat.libelle }}
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                    <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    {# Ajout d'un X si inscrit #}
-                                    {% if inscrit %}
-                                        X
-                                    {% endif %}
-                                        {% if (not inscrit) %}
-                                            <br>
+                    <img src="{{ sortie.urlPhoto }}" class="card-img-top" alt="Illustration de la sortie">
+                    <div class="card-body">
+                        <h5 class="card-title">{{sortie.nomSortie }}</h5>
+                        <p class="card-text">{{sortie.detailSortie}}</p>
+                        <li>Date sortie : {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')  }}</li>
+                        <li>Clôture inscriptions : {{ sortie.dateCloture | date ('d/m/Y')}}</li>
+                        <li>
+                            {# Gestion du compteur d'inscriptions #}
+                            {% set nbInscrit = 0 %}
+                            {% for participant in sortie.participants %}
+                                {% set nbInscrit = nbInscrit + 1 %}
+                            {% endfor %}
+                            Inscriptions : {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}
+                        </li>
+                        <li>Etat : {{ sortie.etat.libelle }}</li>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Organistateur : {{ sortie.organisateur.pseudo }}</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-warning">Go somewhere</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-                                        {% endif %}
-                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
-                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        <span style="color:red; font-weight: bold;">
-                                    {% endif %}
-                                    <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>
-                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td id="masque">
-                                    {# Gestions des actions utilisateur en fonction des différents statuts #}
-                                    {% if (sortie.etat.id != 6 or sortie.etat.id != 7) %}
-                                        {# Afficher les détails #}
-                                        <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a>
 
-                                        {# Inscription / Désinscription #}
-                                        {# Sortie annulée = afficher se désister si inscrit #}
-                                        {% if (sortie.etat.id == 7) %}
-                                            {% if inscrit %}
-                                            <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">Se désister</a>
-                                            {% endif %}
-                                        {% endif %}
-                                        {# Afficher les deux choix si inscription encore ouverte #}
-                                        {% if (sortie.dateCloture|date("U")> 'now'|date("U") and sortie.etat.id != 7) %}
-                                             <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">
-                                                {% if inscrit %}
-                                                    Se désister</a>
-                                                {% endif %}
-                                                {% if not inscrit %}
-                                                    S'inscrire</a>
-                                                {% endif %}
-                                        {% endif %}
-                                        {% if (app.user == sortie.organisateur and sortie.etat.id != 7) %}
-                                            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Annuler</a>
-                                        {% endif %}
-                                        {% if (app.user == sortie.organisateur and sortie.etat.id == 7) %}
-                                            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Restaurer</a>
-                                        {% endif %}
-                                    {% endif %}
-                                </td>
-                            </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <a href="{{ path('sortie_ajout') }}"><button class="btn btn-primary" id="masque">Créer une sortie</button></a>
+{#        <div class="row ">#}
+{#            <div class="col-12 cadre-table-scroll">#}
+{#                <table class="text-center table table-bordered table-striped border-dark table-scroll">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th>Nom de la sortie</th>#}
+{#                        <th>Date de la sortie</th>#}
+{#                        <th id="masque-lieu">Lieu</th>#}
+{#                        <th id="masque">Clôture</th>#}
+{#                        <th id="masque">Inscrits/places</th>#}
+{#                        <th id="masque">Etat</th>#}
+{#                        <th id="masque">Inscrit</th>#}
+{#                        <th id="masque">Organisateur</th>#}
+{#                        <th id="masque">Actions</th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    {% for sortie in sorties %}#}
+
+{#                        #}{# Gestion de la variable inscrit #}
+{#                        {% set inscrit = false %}#}
+{#                        {% for inscriptionSortie in app.user.inscription %}#}
+{#                            {% if inscriptionSortie == sortie %}#}
+{#                                {% set inscrit = true %}#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                            #}{# Ligne du tableau #}
+{#                            <tr>#}
+{#                                <td>#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                         <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    {{ sortie.nomSortie }}#}
+{#                                     {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td>#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    {{ sortie.dateDebut | date ('d/m/Y H:i:s', 'Europe/Paris')}}#}
+{#                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque-lieu">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                        {{ sortie.lieu.nomLieu }}#}
+{#                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    {{ sortie.dateCloture | date ('d/m/Y H:i:s', 'Europe/Paris')}}#}
+{#                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    #}{# Gestion du compteur d'inscriptions #}
+{#                                    {% set nbInscrit = 0 %}#}
+{#                                    {% for participant in sortie.participants %}#}
+{#                                        {% set nbInscrit = nbInscrit + 1 %}#}
+{#                                    {% endfor %}#}
+{#                                    {{ nbInscrit }} | {{ sortie.nbInscriptionsMax }}#}
+{#                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    {{ sortie.etat.libelle }}#}
+{#                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                    <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    #}{# Ajout d'un X si inscrit #}
+{#                                    {% if inscrit %}#}
+{#                                        X#}
+{#                                    {% endif %}#}
+{#                                        {% if (not inscrit) %}#}
+{#                                            <br>#}
+
+{#                                        {% endif %}#}
+{#                                        {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Si la sortie est annulée, l'afficher en rouge si inscrit ou organisateur #}
+{#                                    {% if (inscrit and sortie.etat.id == 7 or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        <span style="color:red; font-weight: bold;">#}
+{#                                    {% endif %}#}
+{#                                    <a class="nav-link" href="{{ path('app_participant_show', {'id': sortie.organisateur.id }) }}">{{ sortie.organisateur.pseudo }}</a>#}
+{#                                    {% if (inscrit or app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                        </span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td id="masque">#}
+{#                                    #}{# Gestions des actions utilisateur en fonction des différents statuts #}
+{#                                    {% if (sortie.etat.id != 6 or sortie.etat.id != 7) %}#}
+{#                                        #}{# Afficher les détails #}
+{#                                        <a href="{{ path('details_index', {'id': sortie.id} ) }}">Détails</a>#}
+
+{#                                        #}{# Inscription / Désinscription #}
+{#                                        #}{# Sortie annulée = afficher se désister si inscrit #}
+{#                                        {% if (sortie.etat.id == 7) %}#}
+{#                                            {% if inscrit %}#}
+{#                                            <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">Se désister</a>#}
+{#                                            {% endif %}#}
+{#                                        {% endif %}#}
+{#                                        #}{# Afficher les deux choix si inscription encore ouverte #}
+{#                                        {% if (sortie.dateCloture|date("U")> 'now'|date("U") and sortie.etat.id != 7) %}#}
+{#                                             <a href="{{ path('app_inscription_sortie', {'sortie': sortie.id} ) }}">#}
+{#                                                {% if inscrit %}#}
+{#                                                    Se désister</a>#}
+{#                                                {% endif %}#}
+{#                                                {% if not inscrit %}#}
+{#                                                    S'inscrire</a>#}
+{#                                                {% endif %}#}
+{#                                        {% endif %}#}
+{#                                        {% if (app.user == sortie.organisateur and sortie.etat.id != 7) %}#}
+{#                                            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Annuler</a>#}
+{#                                        {% endif %}#}
+{#                                        {% if (app.user == sortie.organisateur and sortie.etat.id == 7) %}#}
+{#                                            <a href="{{ path('app_annuler_sortie', {'sortie': sortie.id} ) }}">Restaurer</a>#}
+{#                                        {% endif %}#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                    {% endfor %}#}
+{#                    </tbody>#}
+{#                </table>#}
+{#            </div>#}
+            <a href="{{ path('sortie_ajout') }}"><button class="btn btn-warning" id="masque">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                        </svg>
+                    Créer une sortie</button></a>
         </div>
     </div>
 {% endblock %}
